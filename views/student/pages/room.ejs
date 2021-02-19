@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+      <title>Classroom</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+        <script>
+          var roomId="<%= room %>";
+          var userId="<%= user %>";
+        </script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script> -->
+        <script type="text/javascript" src="/student/js/main.js"></script>
+
+        <script type="text/javascript" src="/student/js/math.js"></script>
+        <script type="text/javascript" src="/student/js/mathtool_script.js"></script>
+        <script type="text/javascript" src="/student/js/questions_script.js"></script>
+        <script type="text/javascript" src="/student/js/chat_script.js"></script>
+        <script src="https://kit.fontawesome.com/c124e9c613.js" crossorigin="anonymous"></script>
+
+        <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+
+        
+
+      <script src="/student/js/d3.js"></script>
+      <script src="/student/js/function_plot.js"></script>
+      <script type="text/javascript" src="/student/js/control_script.js"></script>
+      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+
+    <script type="text/javascript" src="/student/js/files_script.js" ></script>
+    
+    <script src="/teacher/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    
+    <script type="text/javascript" src="/student/js/pdf.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/student/css/semantic.css">
+    <link rel="stylesheet" type="text/css" href="/student/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="/student/css/main.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    
+
+
+
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        
+
+        
+        
+        
+        
+    </head>
+
+    <body onload="onLoad();">
+
+      <div class="files_container w3-round w3-card w3-margin" id="files_container">
+        <h4 class="w3-text-gray w3-margin">Files</h4>
+        <div class="ui list w3-margin">
+          <a class="item">
+            <i class="download icon"></i>
+            <div class="content">
+              <div class="header">Assignment1.pdf</div>
+              
+            </div>
+          </a>
+          <a class="item">
+            <i class="download icon"></i>
+            <div class="content">
+              <div class="header">Assignment2.pdf</div>
+              <!-- <div class="description">Floated icons are by default top aligned. To have an icon top aligned try this example.</div> -->
+            </div>
+          </a>
+          
+        </div>
+      </div>
+
+
+      <div class="question_container  w3-round w3-card w3-margin " id="question_container">
+         <h4 class="w3-text-gray w3-margin">Question</h4>
+         <p class="w3-text-gray w3-margin">What is the relative fallout?</p>
+         <div class="ui relaxed divided list">
+          <div class="item w3-hover-shadow w3-padding w3-round">
+            <div class="content">
+              <a class="header">Semantic-Org/Semantic-UI</a>
+              <!-- <div class="description">Updated 10 mins ago</div> -->
+            </div>
+          </div>
+
+          <div class="item w3-hover-shadow w3-padding w3-round">
+            <div class="content">
+              <a class="header">Semantic-Org/Semantic-UI</a>
+              <!-- <div class="description">Updated 10 mins ago</div> -->
+            </div>
+          </div>
+
+          <div class="item w3-hover-shadow w3-padding w3-round">
+            <div class="content">
+              <a class="header">Semantic-Org/Semantic-UI</a>
+              <!-- <div class="description">Updated 10 mins ago</div> -->
+            </div>
+          </div>
+          
+       
+      </div>
+    </div>
+
+
+      <div class="chat_container w3-round w3-card w3-margin" id="chat_container">
+        <h4 class="w3-text-gray w3-margin">Chat</h4>
+        <div class="ui very relaxed list w3-padding w3-margin">
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+   <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+   <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+   <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <i class="user icon"></i>
+    <div class="content">
+      <a class="header">Daniel Louise</a>
+      <div class="description">Last seen watching just now.</div>
+    </div>
+  </div>
+
+
+</div>
+      </div>
+       <!-- <a href="#" onclick="createRoom();">create room</a> -->
+<script>
+w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+  function getPercentagePoint(event)
+  {
+    let p=event.point;
+    let dp=event.downPoint
+    let pobj={point:p,downPoint:dp}
+    return pobj;
+  }
+</script>
+
+
+<!-- this is going to be the absolute elemets -->
+<div class="absolute_menu">
+
+	<div class="ui animated  button w3-white w3-border" tabindex="0" onclick="display('video')" clicked>
+    <div class="hidden content w3-text-gray">Camera</div>
+    <div class="visible content">
+      <i class="fa fa-user w3-text-gray" aria-hidden="true"></i>
+
+    </div>
+  </div>
+   <div class="ui animated  button w3-white w3-border " tabindex="1" onclick="display('draw')">
+    <div class="hidden content w3-text-yellow">Draw</div>
+    <div class="visible content">
+      <i class="fa fa-pencil-square-o" ></i>
+    </div>
+  </div>
+
+  <div class="ui animated w3-border  w3-white button " tabindex="2" onclick="display('physics')">
+    <div class="hidden content w3-text-teal">Physics</div>
+    <div class="visible content">
+      <i class="fa fa-globe" aria-hidden="true"></i>
+
+
+    </div>
+  </div>
+  <div class="ui animated w3-border  w3-white button " tabindex="3" onclick="display('compute')">
+    <div class="hidden content w3-text-red">Math</div>
+    <div class="visible content">
+      <i class="fa fa-square-root-alt" aria-hidden="true"></i>
+
+    </div>
+  </div>
+
+
+  <div class="ui animated w3-border  w3-white button " tabindex="4" onclick="display('grapher')">
+    <div class="hidden content w3-text-blue">Graph</div>
+    <div class="visible content">
+      <i class="fa fa-line-chart" aria-hidden="true"></i>
+
+    </div>
+  </div>
+  <div class="ui animated w3-border  w3-white button " tabindex="5" onclick="display('pdf')">
+    <div class="hidden content w3-text-red">PDF</div>
+    <div class="visible content">
+      <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+
+    </div>
+  </div>
+<div class="ui animated w3-border  w3-white button " tabindex="6" onclick="display('code')">
+    <div class="hidden content w3-text-black">Code</div>
+    <div class="visible content">
+      <i class="fa fa-code" aria-hidden="true"></i>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="absolute_timer ">
+	<h2 class="w3-text-cyan w3-padding w3-black w3-round">00:50:30</h2>
+  <br>
+ 
+  <div class="ui vertical labeled icon buttons">
+  <button class="ui green button">
+    <i class="microphone icon w3-text-white"></i>
+    Mic
+  </button>
+  <button class="ui button">
+    <i class="video icon w3-text-white"></i>
+    Camera
+  </button>
+  
+</div>
+<br>
+<div class="ui vertical labeled icon buttons w3-margin">
+  <button class="ui button" onclick="window.files.toggleDisplay();">
+    <i class="file icon w3-text-white"></i>
+    Files
+  </button>
+  <button class="ui button" onclick="window.chat.toggleDisplay();">
+    <i class="chat icon w3-text-white"></i>
+    Chat
+  </button>
+  
+</div>
+
+<br>
+
+</div>
+
+
+<div class="absolute_buttons">
+
+  
+<div class="ui vertical labeled icon buttons" >
+ 
+  <button class="ui red button">
+    <i class="alarm icon w3-text-white"></i>
+    Doubt??
+  </button>
+  
+</div>
+
+
+</div>
+
+<div class="main" id="content">
+
+
+  <section class="visible" id="video" >
+     <div id="video-grid"></div>
+  	<!-- <video id="v" height="100%" width="100%"></video> -->
+
+  </section>
+  <script type="text/javascript" src="/student/js/socketio_script.js"></script>
+
+
+  <section class="invisible w3-center w3-padding"  id="draw">
+    <div class="flex">
+      <div class="w3-padding">
+        <div class="w3-margin">
+          <button class="ui button" onclick="window.canvas.undo()">DELETE</button>
+        <button class="ui button" onclick="window.canvas.setTool('line');">LINE</button>
+        <button class="ui button" onclick="window.canvas.setTool('circle');">CIRCLE</button>
+        <button class="ui button" onclick="window.canvas.setTool('path');">PATH</button>
+        </div>
+        <br>
+        <canvas id="myCanvas" width="800" height="600"></canvas>
+      </div>
+
+
+    </div>
+    
+  	
+
+    <!-- <button class="ui basic button">
+      <i class="fa fa-pencil-square-o"  aria-hidden="true"></i>
+    </button> -->
+    
+	
+  </section>
+  
+
+
+
+  <section class="invisible w3-center " id="grapher" >
+  	<div class="flex">
+      <div>
+        <div class="ui action input w3-center">
+          <input type="text" id="eqtn" name="eqtn" value="">
+          <button class="ui teal right  icon button" onclick="window.grapher.plot(document.getElementById('eqtn').value);">
+            <i class="right arrow icon w3-text-white"></i>
+          </button>
+        </div>
+        <div style="height:100%;padding:40px; margin:20px;background: white" id="canv"></div>
+
+      </div>
+
+
+    </div>
+    <script type="text/javascript" src="/student/js/plot_script.js"></script>
+
+  </section>
+
+
+  <section class="invisible" id="physics" >
+    
+    
+    <div class="flex">
+      <iframe src="https://brm.io/matter-js/demo/#mixed"></iframe>
+    </div>
+
+
+  </section>
+  <section class="invisible" id="compute" >
+    <div class="flex">
+      <div class="content">
+        <h1 class="w3-text-teal">Compute</h1>
+        <div class="ui action input  w3-center">
+          <input type="text" class="input" id="math_equation" name="eqtn" value="" placeholder="Write Maths..">
+          <button class="ui teal right  icon button" onclick="document.getElementById('math_solution').innerHTML= window.pmath.evaluate(document.getElementById('math_equation').value);">
+            <i class="right arrow icon w3-text-white"></i>
+          </button>
+
+
+        </div>
+
+        <div class="w3-padding w3-border w3-margin w3-round">
+          <p class="w3-text-teal">Solution</p>
+
+           <h2 class="w3-text-black" id="math_solution"></h2>
+          
+
+        </div>
+
+
+
+        <!-- <div style="height:100%;padding:40px; margin:20px;background: white" id="canv"></div> -->
+
+      </div>
+
+
+    </div>
+  </section>
+  <section class="invisible" id="pdf" >
+      <div class="flex ">
+        <div class="w3-center">
+          <div class="ui buttons w3-center">
+          <button class="ui labeled icon button" onclick="window.pdf.prevPage();">
+            <i class="left chevron icon"></i>
+            Previous
+          </button>
+          
+          <button class="ui right labeled icon button" onclick="window.pdf.nextPage();">
+            Next
+            <i class="right chevron icon"></i>
+          </button>
+          </div>
+          <br>
+          <canvas style="width: 100%;" id="pdfcanvas"></canvas>
+        </div>
+        
+        
+      </div>
+  </section>
+  
+  <section class="invisible" id="code" >
+
+    <h2 class="w3-text-teal w3-center">Code</h2>
+     <div class="w3-text-teal w3-center w3-margin"  style="display:block" >
+       <div class="ui animated  button w3-white w3-border" onclick='document.getElementById("output").value=eval(editor.session.getDocument().$lines.join("\n"));'>
+          <div class="hidden content w3-text-gray">Run</div>
+          <div class="visible content">
+            <i class="play icon" aria-hidden="true"></i>
+
+          </div>
+  </div>
+     </div>
+
+    <div class="flex">
+     
+      <div class="w3-center w3-row" style="width:80%;">  
+        <div  id="editor">function square(i) {
+            
+            return i*i;
+
+          }
+          square(9);
+          </div>
+      </div>
+      <br>
+      <div class="field" placeholder="output">
+    <div class="ui pointing below label">
+      output
+    </div>
+    <textarea id="output"></textarea>
+  </div>
+
+       
+        
+      <!-- <iframe src="https://ideone.com/"></iframe> -->
+    </div>
+
+        <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/dracula");
+        editor.session.setMode("ace/mode/javascript");
+    </script>
+
+    <!-- <h3 class="w3-center w3-text-cyan">Output</h3>
+    <div class="w3-blue" style="">
+          <textarea class="w3-round w3-card"></textarea>
+        </div> -->
+
+  </section>
+</div>
+
+
+<!-- <section id="video" class="section">
+	<div id="container">
+            <button id="recordButton">Record</button>
+            <button id="pauseButton" disabled>Pause</button>
+            <button id="stopButton">Stop</button>
+        </div>
+	<video id="v" height="100%" width="100%"></video>
+	</section>
+
+       
+  <section id="grapher" class="section">
+  	<input type="text" id="eqtn" name="eqtn" value="x^2,x^3,x^5,cos(x)">
+    <button onclick="window.grapher.plot(document.getElementById('eqtn').value);">PLOT</button>
+    
+    <div style="width:100%;height:100%padding:40px; margin:20px;" id="canv"></div>
+
+   	<script type="text/javascript" src="/student/js/plot_script.js"></script>
+ </section>  
+
+
+<section class="sketchdiv">
+
+	<button onclick="window.canvas.undo()">DELETE</button>
+    <button onclick="window.canvas.setTool('line');">LINE</button>
+    <button onclick="window.canvas.setTool('circle');">CIRCLE</button>
+    <button onclick="window.canvas.setTool('path');">PATH</button>
+
+    <button class="ui basic button">
+      <i class="fa fa-pencil-square-o"  aria-hidden="true"></i>
+    </button>
+    <br>
+	<canvas id="myCanvas"></canvas>
+
+
+</section>
+
+
+<section>
+  <canvas style="width: 100%;height:100%;" id="pdfcanvas"></canvas>
+   <header>
+      <h1 id="title"></h1>
+    </header>
+
+    <div id="viewerContainer">
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
+
+    <div id="loadingBar">
+      <div class="progress"></div>
+      <div class="glimmer"></div>
+    </div>
+
+    <div id="errorWrapper" hidden="true">
+      <div id="errorMessageLeft">
+        <span id="errorMessage"></span>
+        <button id="errorShowMore">
+          More Information
+        </button>
+        <button id="errorShowLess">
+          Less Information
+        </button>
+      </div>
+      <div id="errorMessageRight">
+        <button id="errorClose">
+          Close
+        </button>
+      </div>
+      <div class="clearBoth"></div>
+      <textarea id="errorMoreInfo" hidden="true" readonly="readonly"></textarea>
+    </div>
+
+    <footer>
+      <button class="toolbarButton pageUp" title="Previous Page" id="previous"></button>
+      <button class="toolbarButton pageDown" title="Next Page" id="next"></button>
+
+      <input type="number" id="pageNumber" class="toolbarField pageNumber" value="1" size="4" min="1">
+
+      <button class="toolbarButton zoomOut" title="Zoom Out" id="zoomOut"></button>
+      <button class="toolbarButton zoomIn" title="Zoom In" id="zoomIn"></button>
+    </footer>
+
+     
+     
+</section> -->
+        
+        
+
+       
+    </body>
+    <script src="/student/js/pdf_script.js"></script>
+    <!-- <script type="text/javascript" src="/js/adapter.js"></script> -->
+    <!-- <script type="text/javascript" src="/js/player.js"></script>
+    <script type="text/javascript" src="/js/player_script.js"></script> -->
+
+    <script type="text/javascript" src="/student/js/utility_functions.js"></script>
+    
+    <script type="text/javascript" src="/student/js/paper.js"></script>
+        <script type="text/javascript" src="/student/js/paper_script.js"></script>
+
+    <!-- <script type="text/javascript" src="/student/js/media_source.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.4.5/base64.min.js"></script>     <script src="https://apis.google.com/js/platform.js?onload=initt" async defer></script>
+        
+
+</html>

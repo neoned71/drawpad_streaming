@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<title>LOGIN | Thrust Academy</title>
+		<meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com">
+	</head>
+	<body>
+		<script>
+			function onSignIn(googleUser) {
+				var signoutbtn=document.getElementById("signout");
+				signoutbtn.disabled=true;
+
+			  var profile = googleUser.getBasicProfile();
+			  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+			  console.log('Name: ' + profile.getName());
+			  console.log('Image URL: ' + profile.getImageUrl());
+			  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+			}
+
+			function signOut() {
+			    var auth2 = gapi.auth2.getAuthInstance();
+			    auth2.signOut().then(function () {
+			      console.log('User signed out.');
+			    });
+			  }
+
+
+		</script>
+
+		<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+		<h2>Loop</h2>
+		<ul>
+			<% drinks.forEach(function(drink) { %>
+		        <li><%= drink.name %> - <%= drink.drunkness %></li>
+		    <% }); %>
+		</ul>
+
+		<p><%= tagline %></p>
+
+		<a id="signout" href="#" onclick="signOut();">Sign out</a>
+
+
+
+	</body>
+	</html>

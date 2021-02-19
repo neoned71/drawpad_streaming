@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>THRUST | Home</title>
+	<!-- Source code is kept open for the learners... -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com"> -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <script src="https://apis.google.com/js/api:client.js"></script>
+
+<script>
+  var googleUser = {};
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: '567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      attachSignin(document.getElementById('googleSignIn'));
+    });
+  };
+
+  function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          var profile = googleUser.getBasicProfile();
+   //    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	  // console.log('Name: ' + profile.getName());
+	  // console.log('Image URL: ' + profile.getImageUrl());
+	  // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	  loadDoc(profile.getEmail(),profile.getName(),profile.getImageUrl());
+        }, function(error) {
+          //alert(JSON.stringify(error, undefined, 2));
+        });
+  }
+  </script>
+
+  
+
+</head>
+
+
+<style>
+body{
+	/*background-color: #444;*/
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image:url('/img/a.png');
+	width:50%;
+	height:100%;
+	margin-left: auto;
+	margin-right:auto;
+}
+div{
+	width:100%;
+}
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(/fonts/tam.ttf);
+}
+
+.container{
+	display:grid;
+	grid-template-areas: "logo tagline tagline"
+						"subline subline subline"
+}
+
+.logo{
+	width:30em;
+	/*height:2em;*/
+	margin-right:auto;
+	margin-left: auto;
+
+}
+
+.font-tam{
+	font-family: myFirstFont;
+}
+
+.Iam {
+  width:100%;
+  background-color:#444;
+  display:block;
+  padding: 0;
+  font: normal 40px/50px sans-serif;
+  color: #999;
+}
+.Iam p {
+  height: 50px;
+  float: left;
+  margin-right: 0.3em;
+}
+.Iam b {
+  float: left;
+  overflow: hidden;
+  position: relative;
+  height: 50px;
+  top: 40px;
+}
+.Iam .innerIam {
+  display: inline-block;
+  color: #e14;
+  position: relative;
+  white-space: nowrap;
+  top: 0;
+  left: 0;
+
+
+/*animation*/
+-webkit-animation:move 10s;
+   -moz-animation:move 10s;
+    -ms-animation:move 10s;
+     -o-animation:move 10s;
+        animation:move 10s;
+/*animation-iteration-count*/
+-webkit-animation-iteration-count:infinite;
+   -moz-animation-iteration-count:infinite;
+    -ms-animation-iteration-count:infinite;
+     -o-animation-iteration-count:infinite;
+        animation-iteration-count:infinite;
+/*animation-delay*/
+-webkit-animation-delay:1s;
+   -moz-animation-delay:1s;
+    -ms-animation-delay:1s;
+     -o-animation-delay:1s;
+        animation-delay:1s;
+}
+@keyframes move{
+0%  { top: 0px; }
+20% { top: -50px; }
+40% { top: -100px; }
+60% { top: -150px; }
+80% { top: -200px; }
+}
+
+@-webkit-keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+@-moz-keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+@-o-keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+@keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+
+.large-text{
+	font-size:1.5em;
+}
+
+.largex-text{
+	font-size:2em;
+}
+
+
+.eighty{
+	width:80%;
+}
+
+
+.login-icon{
+	width:50px;
+	cursor:pointer;
+}
+</style>
+
+<script>
+			// function onSignIn(googleUser) {
+			// 	var signoutbtn=document.getElementById("signout");
+			// 	signoutbtn.disabled=true;
+
+			//   var profile = googleUser.getBasicProfile();
+			 
+
+			// }
+
+
+			// function abc()
+			// {
+			// 	loadDoc("a","b","c");
+
+			// }
+
+			// function signOut() {
+			//     var auth2 = gapi.auth2.getAuthInstance();
+			//     auth2.signOut().then(function () {
+			//       console.log('User signed out.');
+			//     });
+			//   }
+
+			  function loadDoc(email,name,image_url) {
+				  var xhttp = new XMLHttpRequest();
+				  var formData = new FormData();
+				  formData.append("email",email);
+				  formData.append("name",name);
+				  formData.append("image_url",image_url);
+				  formData.append("access_token","NA");
+
+				  xhttp.onreadystatechange = function() {
+				  	console.log(this.responseText);
+				    if (this.readyState == 4 && this.status == 200) {
+				    	var json=JSON.parse(this.responseText);
+				    	if(json.status=="success"){
+				    		console.log(this.responseText);
+				    		window.location.href="/";
+				    	}
+				      //document.getElementById("demo").innerHTML = this.responseText;
+				    }
+				    
+				  };
+				  xhttp.open("POST", "/api/auth/register_login", true);
+				  console.log("sent details");
+				  xhttp.send(formData);
+				}
+
+			// 	var slideIndex = 0;
+
+
+</script>
+
+<body class="">
+
+
+  <div class="w3-center w3-margin"> 
+    <img class="logo" src="/img/logo.png" >
+  </div>
+
+  <div class="w3-center w3-margin"> 
+    <img class="w3-center logo"src="/img/menu.png" >
+  </div>
+
+
+
+	<div class="w3-center">	
+		<p class="large-text w3-text-large w3-text-gray font-tam">The<span class="largex-text w3-text-white"> Future </span> of Education <span class="largex-text w3-text-cyan"> is</span> <span class="largex-text w3-text-red">ONLINE</span> & <span class="largex-text w3-text-green">INTERACTIVE</span></p>
+	</div>
+
+		
+
+	
+
+	<div class="w3-center w3-text-white w3-margin" >	
+		 Let's get Started..<image id="googleSignIn" class="login-icon" src="img/gg.png"></image>
+		
+		<!-- <div class=" w3-center w3-padding logo" data-color="black" id="my-signin2"></div> -->
+	</div>
+<br>
+	<div class="w3-block">
+		
+	</div>
+
+
+	<div class="login">
+		
+	</div>
+  <script>
+   //  function onSuccess(googleUser) 
+   //  {
+   //    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+   //    var profile = googleUser.getBasicProfile();
+   //    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	  // console.log('Name: ' + profile.getName());
+	  // console.log('Image URL: ' + profile.getImageUrl());
+	  // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	  // loadDoc(profile.getEmail(),profile.getName(),profile.getImageUrl());
+   //  }
+
+
+   //  function onFailure(error) {
+   //    console.log(error);
+   //  }
+   //  function renderButton() {
+   //    gapi.signin2.render('my-signin2', {
+   //      'scope': 'profile email',
+   //      'width': 240,
+   //      'height': 50,
+   //      'longtitle': true,
+   //      'theme': 'dark',
+   //      'onsuccess': onSuccess,
+   //      'onfailure': onFailure
+   //    });
+   //  }
+  </script>
+
+  <script>startApp();</script>
+
+
+<!--   <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script> -->
+
+
+
+</body>
+</html>
+
