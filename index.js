@@ -22,13 +22,18 @@ var base64js = require('base64-js');
 
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
+const room_functions = require("./routes/auth");
 const Room = require("./node_models/rooms");
+const Files = require("./node_models/files");
+
+const Directories = require("./routes/directories");
 
 // const fileUpload = require("./file_upload");
 
 const RoomClass = require("./roomClass");
+// const files = require("./node_models/files");
 //const PORT = 5000;
-const MONGO_URI = "mongodb://127.0.0.1:27017/n71_video_conf";
+const MONGO_URI = "mongodb://127.0.0.1:27017/n71_drawpad_streaming";
 
 mongoose
     .connect(MONGO_URI, { useUnifiedTopology: true,useNewUrlParser: true })
@@ -41,7 +46,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // app.use(upload.array());
 
-var port=3002;
+var port=11000;
 var sessionStore=new MongoStore({ mongooseConnection: mongoose.connection });
 
 var sessionMiddleWare=session({
@@ -54,6 +59,7 @@ var sessionMiddleWare=session({
 // Express Session
 app.use(sessionMiddleWare);
 // app.use(cookieParser);
+
 
 // Passport middleware
 app.use(passport.initialize());
@@ -78,16 +84,19 @@ app.use("/api/auth", upload.array(),auth);
 app.get("/login",(req, res) => {res.render('pages/login_complete');});
 app.set("view engine","ejs");
 
+app.use('/static', express.static(__dirname + '/static/'));
 app.use('/img', express.static(__dirname + '/views/img/'));
 app.use('/pdfs', express.static(__dirname + '/views/pdfs/'));
 app.use('/fonts', express.static(__dirname + '/views/fonts'));
 
-app.use('/classroom', express.static(__dirname + '/views/home/'));
+// app.use('/classroom', express.static(__dirname + '/views/home/'));
 
 
 
 app.use('/js', express.static(__dirname + '/views/js/'));
 app.use('/css', express.static(__dirname + '/views/css/'));
+app.use('/room_api',Directories);
+app.use('/directories',Directories);
 // app.use('/teacher', express.static(__dirname + '/views/teacher/'));
 
 // app.use('/student/js', express.static(__dirname + '/views/student/js/'));
@@ -111,58 +120,51 @@ let count=1;
 var rooms = new Map();// to store room data!!
 
 app.get('/'/*,cors(corsOptions)*/, isAuthenticated,function (req, res) {
-//   console.log(req.user);
-	//res.redirect('/classroom');
+
 	res.render("pages/",{imageUrl:req.user.image_url,name:req.user.name});
+
 });
 
-// app.get('/value'/*,cors(corsOptions)*/, function (req, res) {
-//   count++;
-//   res.end(JSON.stringify(count)) ;
-// });
-
-// app.get('/user/token',isAuthenticated, function (req, res) {
-//   let d={status:"success",token:req.user.token};
-//   res.end(JSON.stringify(d));
-// });
-
-
-app.get('/room/:roomId',isAuthenticated, function (req, res) {
+app.get('/room/:roomId/:fileId',isAuthenticated, function (req, res) {
 	let roomId = req.params['roomId'];
+	let fileId = req.params['fileId'];
+	let r={status:"failed",message:"room not found!"};
 	if(rooms.has(roomId))
 	{
 		let room = rooms.get(roomId);
 		if(room.started) //room.started = true defined in Room.js file Room class
 		{
-			goToRoom(res,roomId,req.user.id);
+			goToRoom(res,roomId,req.user.id,fileId);
 		}
 		else{
-			//
+			//never coming here for now...
 			goToWaitingRoom(res,roomId,req.user.id);
 		}
 	}	
+	else{
+		res.status(404).end(r);
+	}
 });
 
 
-function goToRoom(res,roomId,userId)
+function goToRoom(res,roomId,userId,fileId)
 {
-	// console.log(rooms.get(roomId));
-	// console.log("roomId:"+roomId);
  	Room.findById(roomId).lean().exec(function (err, results)
  	{
  		console.log(results._id == roomId);
         try {
             console.log(typeof results);
-            if(userId==results.owner)
-            {
-            	console.log("yes");
-            	res.render("pages/room.ejs",{room:roomId,user:userId});
-            }
-            else
-            {
-            	console.log("no");
-            	res.render("pages/room.ejs",{room:roomId,user:userId});
-            }
+			res.render("pages/room.ejs",{room:roomId,user:userId,fileId:fileId});
+            // if(userId==results.owner)
+            // {
+            // 	console.log("yes");
+            // 	res.render("pages/room.ejs",{room:roomId,user:userId});
+            // }
+            // else
+            // {
+            // 	console.log("no");
+            // 	res.render("pages/room.ejs",{room:roomId,user:userId});
+            // }
         } catch (err) {
             console.log("errror getting results");
             // console.log(error);
@@ -223,10 +225,15 @@ app.get('/create_room',isAuthenticated, function (req, res) {
 	let cancelled = false;
 	
 	let d=new Room({owner:ownerId});
+	
   	console.log("room created: "+d._id+","+d.id);
   	d.save(err=>{console.log(err);});
+
+	let f= new Files({owner:ownerId,directory:d._id});
+	f.save(err=>{console.log(err);});
   	
-	let ret={status:"success",room_id:d.id};
+	let ret={status:"success",room_id:d.id,file_id:f.id};
+	console.log("file created : "+ f.id);
   	rooms.set(d.id.toString(),new RoomClass(d.id,ownerId,io));
   	res.end(JSON.stringify(ret));
 });
@@ -238,7 +245,7 @@ const io = require('socket.io')(server, options);
 io.use(passportSocketio.authorize({
   cookieParser: cookieParser,       // the same middleware you registrer in express
   key:          'express.sid',       // the name of the cookie where express/connect stores its session_id
-  secret:       'neoned71',    // the session_secret to parse the cookie
+  secret:       'neoned71',    		// the session_secret to parse the cookie
   store:        sessionStore,        // we NEED to use a sessionstore. no memorystore please
   success:      onAuthorizeSuccess,  // *optional* callback on success - read more below
   fail:         onAuthorizeFail,     // *optional* callback on fail/error - read more below

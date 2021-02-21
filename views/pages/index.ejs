@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>THRUST | Home</title>
+	<title>N71</title>
 	<!-- Source code is kept open for the learners... -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com">
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-   <link rel="stylesheet" type="text/css" href="/student/css/semantic.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+   <link rel="stylesheet" type="text/css" href="/student/css/semantic.css"/>
 
   
 
@@ -169,36 +169,7 @@ a{
 
 </style>
 
-<script type="text/javascript">
-  function createRoom(){
-    console.log("creating room");
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4){
-          var result=this.responseText;
-          try {
-                var jsobj=JSON.parse(result);
-                if(jsobj.status=="success")
-                {
-                  console.log(jsobj);
-                  window.location=/room/+jsobj.room_id.toString();
-                }
-                else
-                {
-                  alert("creating room failed");
-                }
-              }
-              catch(err) {
-                alert("something went wrong");
-                console.log(err);
-              }
-            
-        }
-    };
-    xhr.open('GET', '/create_room');
-    xhr.send();
-  }
-</script>
+
 <body>
 
 <div class="term">
@@ -225,13 +196,51 @@ a{
 
   <div class="w3-center w3-text-cyan ">  
     <div class="ui action input">
-  <input type="text" placeholder="Room ID" id="room_id">
-  <button class="ui button" onclick="location.href='room/'+document.getElementById('room_id').value;">Join</button>
-</div>
+      <input type="text" placeholder="Room ID" id="room_id">
+      <button class="ui button" onclick="location.href='room/'+document.getElementById('room_id').value;">Join</button>
+    </div>
+  </div>
+
+  <div class="w3-center w3-text-cyan "> 
+    <button class="ui right labeled blue icon button" onclick="window.location='/directories'">
+  
+  Directories
+</button>
   </div>
 
   
 </div>
+
+<script>
+  function createRoom(){
+    console.log("creating room");
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4){
+          var result=this.responseText;
+          try {
+                var jsobj=JSON.parse(result);
+                if(jsobj.status=="success")
+                {
+                  console.log(jsobj);
+                  window.location='/room/'+jsobj.room_id.toString()+"/"+jsobj.file_id.toString();
+                }
+                else
+                {
+                  alert("creating room failed");
+                }
+              }
+              catch(err) {
+                alert("something went wrong");
+                console.log(err);
+              }
+            
+        }
+    };
+    xhr.open('GET', '/create_room');
+    xhr.send();
+  }
+</script>
 
 
 </body>

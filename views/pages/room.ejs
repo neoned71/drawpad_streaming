@@ -4,15 +4,25 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
       <script>
+
         var roomId="<%= room %>";
+        var fileId ="<%= fileId %>";
+
+        
+        
         var userId="<%= user %>";
       </script>
       <script src="https://kit.fontawesome.com/c124e9c613.js" crossorigin="anonymous"></script>
         <!-- peerjs -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.3.1/peerjs.min.js" integrity="sha512-wNUAk/IKoDcVSiKiN/0ormRTzENc9IbFdHa/BWNuLPtp2kG53TLf5dobOeCHoeafnlaSfjKAiSewS6AJspm/Iw==" crossorigin="anonymous"></script>      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.3.1/peerjs.min.js" integrity="sha512-wNUAk/IKoDcVSiKiN/0ormRTzENc9IbFdHa/BWNuLPtp2kG53TLf5dobOeCHoeafnlaSfjKAiSewS6AJspm/Iw==" crossorigin="anonymous"></script> 
+      <script type="text/javascript" src="/static/drawpad/paper.js"></script>
+      
+      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+      <link rel="stylesheet" type="text/css" href="/static/drawpad/semantic.css">
+      <link rel="stylesheet" type="text/css" href="/static/drawpad/main.css">
 
 
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/css/main.css"> -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
@@ -54,77 +64,151 @@ h = window.innerHeight || document.documentElement.clientHeight || document.body
 
 
  <br>
- 
-
- <div class="absolute_menu">
-
-	<div class="ui animated  button w3-white w3-border" tabindex="0" onclick="display('video')" clicked>
-    <div class="hidden content w3-text-gray">Camera</div>
-    <div class="visible content">
-      <i class="fa fa-user w3-text-gray" aria-hidden="true"></i>
-
-    </div>
-  </div>
-   <div class="ui animated  button w3-white w3-border " tabindex="1" onclick="display('draw')">
-    <div class="hidden content w3-text-yellow">Draw</div>
-    <div class="visible content">
-      <i class="fa fa-pencil-square-o" ></i>
-    </div>
-  </div>
-
-   
-
-</div>
-
 
  <div class="absolute_timer ">
-     Room-Id:<br><%= room %>
+  
+    <!-- <a href="#" class=" w3-text-gray w3-center w3-padding w3-margin-top" style="font-size: 60px;position:absolute;right:0em;top:0em;">Drawpad</a> -->
+    <a class=" w3-text-gray w3-center w3-padding w3-margin-top" style="font-size: 20px;position:absolute;right:0em;top:0em;"><%= room %></a>
+    
+
 
 
   <br>
- 
- 
 <br>
-
-
 <br>
-
 </div>
 
 
 <div class="main" id="content">
- <section class="visible" id="video" >
+  
+ <div class="cam-feed">
   <div id="video-grid"></div>
+ </div>
 
-  </section>
+  
   <script type="text/javascript" src="/js/socketio_script.js"></script>
         
   
-<section class="invisible w3-center w3-padding"  id="draw">
-    <div class="flex">
-      <div class="w3-padding">
-        <div class="w3-margin">
-          <button class="ui button" onclick="window.canvas.undo()">DELETE</button>
-        <button class="ui button" onclick="window.canvas.setTool('line');">LINE</button>
-        <button class="ui button" onclick="window.canvas.setTool('circle');">CIRCLE</button>
-        <button class="ui button" onclick="window.canvas.setTool('path');">PATH</button>
-        </div>
-        <br>
-        <canvas id="myCanvas" width="800" height="600"></canvas>
-      </div>
+<section class="visible"  id="draw">
+    <div class="w3-margin w3-padding w3-center">
+      
 
+     <a href="#" class="w3-red w3-margin w3-round " onclick="window.canvas.setColor('red')">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+     <a href="#" class="w3-margin w3-blue w3-round" onclick="window.canvas.setColor('blue');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+     <a href="#" class="w3-margin w3-white w3-round" onclick="window.canvas.setColor('white');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+    
+     <a href="#" class="w3-margin w3-gray w3-round" onclick="window.canvas.setColor('#777');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
 
+     <a href="#" class="w3-yellow w3-margin w3-round " onclick="window.canvas.setColor('yellow')">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+     <a href="#" class="w3-margin w3-green w3-round" onclick="window.canvas.setColor('green');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+     <a href="#" class="w3-margin w3-cyan w3-round" onclick="window.canvas.setColor('cyan');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+    
+    <a href="#" class="w3-margin w3-purple w3-round" onclick="window.canvas.setColor('purple');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+    <a href="#" class="w3-margin w3-border w3-round" onclick="window.canvas.setColor('black');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+
+    <div class="slidecontainer w3-margin w3-text-gray">
+      <input type="range" min="1" max="10" value="9" class="slider" id="myRange">
     </div>
+
+
+
+
+
+          <a href="#" class="w3-margin" onclick="window.canvas.undo()"><i class="w3-text-red fas fa-undo-alt"></i></a>
+          <a href="#" class="w3-margin" onclick="window.canvas.setTool('line');"><i class="w3-text-white fas fa-grip-lines-vertical"></i></a>
+          <a href="#" class="w3-margin" onclick="window.canvas.setTool('circle');"><i class="w3-text-white far fa-circle"></i></a>
+          <a href="#" class="w3-margin" onclick="window.canvas.setTool('path');"><i class="w3-text-white fas fa-pencil-alt"></i></a>
+     <a href="#" class="w3-margin w3-text-green " onclick="clearState('<%= room %>','<%= fileId %>');"> <i class="w3-text-red fas fa-retweet"></i>
+      </a>
+          <!-- <a href="#" class="w3-margin" onclick="toggleFullScreen();"><i class="fas fa-expand"></i></a> -->
+
+          
+          </div>
+      <div class="flex">
+        <div class="">
+          
+          <br>
+          <canvas id="myCanvas" ></canvas>
+        </div>
+
+
+      </div>
   </section>
 </div>
         
 
     </body>
+    <script type="text/javascript" src="/js/paper_script.js"></script>
+    <script type="text/javascript">
+// function toggleFullScreen() {
+//   if (!document.fullscreenElement) {
+//       document.documentElement.requestFullscreen();
+//   } else {
+//     if (document.exitFullscreen) {
+//       document.exitFullscreen();
+//     }
+//   }
+// }
+var slider = document.getElementById("myRange");
+slider.oninput = function() {
+console.log(this.value);
+window.canvas.setRadius(this.value);
+} 
+slider.value=5;
+var scrollWatcher=0;
+
+var canvass= document.getElementById("myCanvas");
+
+canvass.addEventListener("wheel", mouseDown);
+function mouseDown(e) {
+console.log(e);
+if (parseInt(navigator.appVersion) > 3) {
+
+  var evt = e ? e : window.event;
+  // var delta = evt.wheelDelta ? evt.wheelDelta / 120 : evt.detail ? -evt.detail : 0;
+  let scrollValue=e.deltaY*20;
+  
+  /* For canvas scrolling */
+  if (scrollWatcher+scrollValue >= 0) { // Scroll up
+    console.log(scrollWatcher+" "+scrollValue);
+
+    scope.view.scrollBy(new scope.Point(0,scrollValue));
+    scrollWatcher+=scrollValue;
+  }
+  // } else { // Scroll down
+
+  // // Perform action for scroll down
+  // scope.view.scrollBy(new scope.Point(0,scrollValue));
+  // scrollWatcher+=scrollValue;
+
+  // }
+  // console.log(scrollWatcher);
+
+  }
+  return true;
+}
+if (parseInt(navigator.appVersion) > 3) {
+  //console.log("mouse down called");
+  canvass.onmousewheel = ()=>{console.log("wheel")};
+  if (navigator.appName == "Netscape" && parseInt(navigator.appVersion) == 4) {
+    console.log("mouse down called");
+    canvass.captureEvents(Event.MOUSEDOWN);
+  }
+}
+
+getStateFromServer('<%= room %>','<%= fileId %>');//room has replaced directory in the structure!
+
+
+  </script>
+
+
+
 
     <script type="text/javascript" src="/js/utility_functions.js"></script>
     <!-- <script type="text/javascript" src="/js/paper.js"></script> -->
         <!-- <script type="text/javascript" src="/js/paper_script.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/js-base64@3.4.5/base64.min.js"></script>
+
 <script src="https://apis.google.com/js/platform.js?onload=initt" async defer></script>
         
 

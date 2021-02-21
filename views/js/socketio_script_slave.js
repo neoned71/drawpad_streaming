@@ -6,7 +6,7 @@ const myPeer = new Peer(userId, {
   port: '3001',
   config: {'iceServers': [
     { url: 'stun:stun.l.google.com:19302' },
-    { url: 'turn:thrustacademy.com:3478', credential: 'neon',username:'neoned71' }
+    { url: 'turn:neoned71.com:3478', credential: 'neon',username:'neoned71' }
   ]}
 });
 

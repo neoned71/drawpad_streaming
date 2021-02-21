@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>THRUST | Home</title>
-	<!-- Source code is kept open for the learners... -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- <meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com"> -->
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <title>DRAWPAD</title>
+  <!-- Source code is kept open for the learners... -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com"> -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
   <script src="https://apis.google.com/js/api:client.js"></script>
 
 <script>
@@ -15,7 +15,7 @@
     gapi.load('auth2', function(){
       // Retrieve the singleton for the GoogleAuth library and set up the client.
       auth2 = gapi.auth2.init({
-        client_id: '567112201060-gncmjvub7op32818jpjnttihi4supem0.apps.googleusercontent.com',
+        client_id: '567112201060-j786df1t1vdlumnp49ap2n05jfpc2b2s.apps.googleusercontent.com',
         cookiepolicy: 'single_host_origin',
         // Request scopes in addition to 'profile' and 'email'
         //scope: 'additional_scope'
@@ -32,10 +32,10 @@
           var profile = googleUser.getBasicProfile();
           var access_token= googleUser.getAuthResponse().id_token;
              //    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	  // console.log('Name: ' + profile.getName());
-	  // console.log('Image URL: ' + profile.getImageUrl());
-	  // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	  loadDoc(profile.getEmail(),profile.getName(),profile.getImageUrl(),access_token);
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    loadDoc(profile.getEmail(),profile.getName(),profile.getImageUrl(),access_token);
         }, function(error) {
           //alert(JSON.stringify(error, undefined, 2));
         });
@@ -49,17 +49,17 @@
 
 <style>
 body{
-	/*background-color: #444;*/
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-image:url('/img/a.png');
-	width:50%;
-	height:100%;
-	margin-left: auto;
-	margin-right:auto;
+  /*background-color: #444;*/
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-image:url('/img/a.png'); */
+  width:50%;
+  height:100%;
+  margin-left: auto;
+  margin-right:auto;
 }
 div{
-	width:100%;
+  width:100%;
 }
 
 @font-face {
@@ -68,21 +68,21 @@ div{
 }
 
 .container{
-	display:grid;
-	grid-template-areas: "logo tagline tagline"
-						"subline subline subline"
+  display:grid;
+  grid-template-areas: "logo tagline tagline"
+            "subline subline subline"
 }
 
 .logo{
-	width:30em;
-	/*height:2em;*/
-	margin-right:auto;
-	margin-left: auto;
+  width:30em;
+  /*height:2em;*/
+  margin-right:auto;
+  margin-left: auto;
 
 }
 
 .font-tam{
-	font-family: myFirstFont;
+  font-family: myFirstFont;
 }
 
 .Iam {
@@ -171,75 +171,75 @@ div{
 }
 
 .large-text{
-	font-size:1.5em;
+  font-size:1.5em;
 }
 
 .largex-text{
-	font-size:2em;
+  font-size:2em;
 }
 
 
 .eighty{
-	width:80%;
+  width:80%;
 }
 
 
 .login-icon{
-	width:50px;
-	cursor:pointer;
+  width:50px;
+  cursor:pointer;
 }
 </style>
 
 <script>
-			// function onSignIn(googleUser) {
-			// 	var signoutbtn=document.getElementById("signout");
-			// 	signoutbtn.disabled=true;
+      // function onSignIn(googleUser) {
+      //  var signoutbtn=document.getElementById("signout");
+      //  signoutbtn.disabled=true;
 
-			//   var profile = googleUser.getBasicProfile();
-			 
+      //   var profile = googleUser.getBasicProfile();
+       
 
-			// }
+      // }
 
 
-			// function abc()
-			// {
-			// 	loadDoc("a","b","c");
+      // function abc()
+      // {
+      //  loadDoc("a","b","c");
 
-			// }
+      // }
 
-			// function signOut() {
-			//     var auth2 = gapi.auth2.getAuthInstance();
-			//     auth2.signOut().then(function () {
-			//       console.log('User signed out.');
-			//     });
-			//   }
+      // function signOut() {
+      //     var auth2 = gapi.auth2.getAuthInstance();
+      //     auth2.signOut().then(function () {
+      //       console.log('User signed out.');
+      //     });
+      //   }
 
-			  function loadDoc(email,name,image_url,access_token) {
-				  var xhttp = new XMLHttpRequest();
-				  var formData = new FormData();
-				  formData.append("email",email);
-				  formData.append("name",name);
-				  formData.append("image_url",image_url);
-				  formData.append("access_token",access_token);
+        function loadDoc(email,name,image_url,access_token) {
+          var xhttp = new XMLHttpRequest();
+          var formData = new FormData();
+          formData.append("email",email);
+          formData.append("name",name);
+          formData.append("image_url",image_url);
+          formData.append("access_token",access_token);
 
-				  xhttp.onreadystatechange = function() {
-				  	console.log(this.responseText);
-				    if (this.readyState == 4 && this.status == 200) {
-				    	var json=JSON.parse(this.responseText);
-				    	if(json.status=="success"){
-				    		console.log(this.responseText);
-				    		window.location.href="/";
-				    	}
-				      //document.getElementById("demo").innerHTML = this.responseText;
-				    }
-				    
-				  };
-				  xhttp.open("POST", "/api/auth/register_login", true);
-				  console.log("sent details");
-				  xhttp.send(formData);
-				}
+          xhttp.onreadystatechange = function() {
+            console.log(this.responseText);
+            if (this.readyState == 4 && this.status == 200) {
+              var json=JSON.parse(this.responseText);
+              if(json.status=="success"){
+                console.log(this.responseText);
+                window.location.href="/";
+              }
+              //document.getElementById("demo").innerHTML = this.responseText;
+            }
+            
+          };
+          xhttp.open("POST", "/api/auth/register_login", true);
+          console.log("sent details");
+          xhttp.send(formData);
+        }
 
-			// 	var slideIndex = 0;
+      //  var slideIndex = 0;
 
 
 </script>
@@ -247,48 +247,48 @@ div{
 <body class="">
 
 
-  <div class="w3-center w3-margin"> 
-    <img class="logo" src="/img/logo.png" >
+  <div class="w3-center w3-margin w3-text-blue" style="font-size: 1000%;"> 
+    DRAWPAD
   </div>
 
   <div class="w3-center w3-margin"> 
-    <img class="w3-center logo"src="/img/menu.png" >
+    <!-- <img class="w3-center logo"src="/img/menu.png" > -->
   </div>
 
 
 
-	<div class="w3-center">	
-		<p class="large-text w3-text-large w3-text-gray font-tam">The<span class="largex-text w3-text-white"> Future </span> of Education <span class="largex-text w3-text-cyan"> is</span> <span class="largex-text w3-text-red">ONLINE</span> & <span class="largex-text w3-text-green">INTERACTIVE</span></p>
-	</div>
+  <div class="w3-center"> 
+    <p class="large-text w3-text-large w3-text-gray font-tam">Sign In to continue...Its free...</p>
+  </div>
 
-		
+    
 
-	
+  
 
-	<div class="w3-center w3-text-white w3-margin" >	
-		 Let's get Started..<image id="googleSignIn" class="login-icon" src="img/gg.png"></image>
-		
-		<!-- <div class=" w3-center w3-padding logo" data-color="black" id="my-signin2"></div> -->
-	</div>
+  <div class="w3-center w3-text-gray w3-margin" > 
+     Let's get Started..<image id="googleSignIn" class="login-icon" src="img/gg.png"></image>
+    
+    <!-- <div class=" w3-center w3-padding logo" data-color="black" id="my-signin2"></div> -->
+  </div>
 <br>
-	<div class="w3-block">
-		
-	</div>
+  <div class="w3-block">
+    
+  </div>
 
 
-	<div class="login">
-		
-	</div>
+  <div class="login">
+    
+  </div>
   <script>
    //  function onSuccess(googleUser) 
    //  {
    //    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
    //    var profile = googleUser.getBasicProfile();
    //    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	  // console.log('Name: ' + profile.getName());
-	  // console.log('Image URL: ' + profile.getImageUrl());
-	  // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	  // loadDoc(profile.getEmail(),profile.getName(),profile.getImageUrl());
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    // loadDoc(profile.getEmail(),profile.getName(),profile.getImageUrl());
    //  }
 
 

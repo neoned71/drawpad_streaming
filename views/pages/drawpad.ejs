@@ -1,0 +1,143 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<script type="text/javascript" src="/static/drawpad/paper.js"></script>
+	<script type="text/javascript" src="/static/drawpad/paper_script.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@100&family=Barlow+Condensed:wght@100&display=swap" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" href="/static/drawpad/semantic.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+
+	<link rel="stylesheet" type="text/css" href="/static/drawpad/main.css">
+
+	<style type="text/css">
+		* {
+  font-family: 'Advent Pro', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
+   }
+	</style>
+
+
+
+</head>
+	<section class=" "  id="draw">
+		<a href="#" class=" w3-text-gray w3-center w3-padding w3-margin-top" style="font-size: 60px;position:absolute;right:0em;top:0em;">Drawpad</a>
+		<div class="w3-margin w3-padding w3-center">
+			
+
+			<a href="#" class="w3-red w3-margin w3-round " onclick="window.canvas.setColor('red')">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	         <a href="#" class="w3-margin w3-blue w3-round" onclick="window.canvas.setColor('blue');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	         <a href="#" class="w3-margin w3-white w3-round" onclick="window.canvas.setColor('white');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	        
+	        <a href="#" class="w3-margin w3-gray w3-round" onclick="window.canvas.setColor('#777');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+
+	        <a href="#" class="w3-yellow w3-margin w3-round " onclick="window.canvas.setColor('yellow')">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	         <a href="#" class="w3-margin w3-green w3-round" onclick="window.canvas.setColor('green');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	         <a href="#" class="w3-margin w3-cyan w3-round" onclick="window.canvas.setColor('cyan');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	        
+	        <a href="#" class="w3-margin w3-purple w3-round" onclick="window.canvas.setColor('purple');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+	        <a href="#" class="w3-margin w3-border w3-round" onclick="window.canvas.setColor('black');">&nbsp; &nbsp; &nbsp; &nbsp;</a>
+
+	        <div class="slidecontainer w3-margin w3-text-gray">
+			  <input type="range" min="1" max="10" value="9" class="slider" id="myRange">
+			</div>
+
+
+
+
+
+	           <a href="#" class="w3-margin" onclick="window.canvas.undo()"><i class="w3-text-red fas fa-undo-alt"></i></a>
+	         <a href="#" class="w3-margin" onclick="window.canvas.setTool('line');"><i class="w3-text-white fas fa-grip-lines-vertical"></i></a>
+	         <a href="#" class="w3-margin" onclick="window.canvas.setTool('circle');"><i class="w3-text-white far fa-circle"></i></a>
+	        <a href="#" class="w3-margin" onclick="window.canvas.setTool('path');"><i class="w3-text-white fas fa-pencil-alt"></i></a>
+			<!-- <a href="#" class="w3-margin w3-text-green " onclick="saveStateToServer('<%= directory %>','<%= file._id %>');"> <i class="w3-text-green fas fa-save" label="save"></i></a> -->
+			<a href="#" class="w3-margin w3-text-green " onclick="clearState('<%= directory %>','<%= file._id %>');"> <i class="w3-text-red fas fa-retweet"></i>
+			</a>
+	        <!-- <a href="#" class="w3-margin" onclick="toggleFullScreen();"><i class="fas fa-expand"></i></a> -->
+
+	        
+	        </div>
+	    <div class="flex">
+	      <div class="">
+	        
+	        <br>
+	        <canvas id="myCanvas" ></canvas>
+	      </div>
+
+
+	    </div>
+	</section>
+
+	<script type="text/javascript">
+// function toggleFullScreen() {
+//   if (!document.fullscreenElement) {
+//       document.documentElement.requestFullscreen();
+//   } else {
+//     if (document.exitFullscreen) {
+//       document.exitFullscreen();
+//     }
+//   }
+// }
+var slider = document.getElementById("myRange");
+slider.oninput = function() {
+console.log(this.value);
+window.canvas.setRadius(this.value);
+} 
+slider.value=5;
+var scrollWatcher=0;
+
+var canvass= document.getElementById("myCanvas");
+
+canvass.addEventListener("wheel", mouseDown);
+function mouseDown(e) {
+console.log(e);
+if (parseInt(navigator.appVersion) > 3) {
+
+	var evt = e ? e : window.event;
+	// var delta = evt.wheelDelta ? evt.wheelDelta / 120 : evt.detail ? -evt.detail : 0;
+	let scrollValue=e.deltaY*20;
+	
+	/* For canvas scrolling */
+	if (scrollWatcher+scrollValue >= 0) { // Scroll up
+		console.log(scrollWatcher+" "+scrollValue);
+		// Perform action for scroll up
+			// if(scrollWatcher>scrollValue){
+			// 	scope.view.scrollBy(new scope.Point(0,-scrollValue));
+			// 	scrollWatcher-=scrollValue;
+			// }
+			// else{
+			// 	scope.view.scrollBy(new scope.Point(0,-scrollWatcher));
+			// 	scrollWatcher=0;
+			// }
+		scope.view.scrollBy(new scope.Point(0,scrollValue));
+		scrollWatcher+=scrollValue;
+	}
+	// } else { // Scroll down
+
+	// // Perform action for scroll down
+	// scope.view.scrollBy(new scope.Point(0,scrollValue));
+	// scrollWatcher+=scrollValue;
+
+	// }
+	// console.log(scrollWatcher);
+
+	}
+	return true;
+}
+if (parseInt(navigator.appVersion) > 3) {
+	//console.log("mouse down called");
+	canvass.onmousewheel = ()=>{console.log("wheel")};
+	if (navigator.appName == "Netscape" && parseInt(navigator.appVersion) == 4) {
+		console.log("mouse down called");
+		canvass.captureEvents(Event.MOUSEDOWN);
+	}
+}
+
+getStateFromServer('<%= directory %>','<%= file._id %>');
+
+//setTimeout(function(){ saveStateToServer('<%= directory %>','<%= file._id %>') }, 60000*5);
+	</script>
+	<!-- <canvas id="myCanvas" width="100%" height="100%"></canvas> -->
+ </html> 

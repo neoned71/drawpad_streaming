@@ -307,7 +307,7 @@ socket.to(this.roomId).emit("state",this.state);
 	//5th
 	socket.on("canvas",data=>{
     // console.log(data);
-     if(socket.role=="master"){
+    if(socket.role=="master"){
     	if(data.action=="radius")
     	{
     		if(this.canvas.setRadius(data.data.radius))
@@ -315,7 +315,6 @@ socket.to(this.roomId).emit("state",this.state);
           		this.canvas.addAction(data);
     			socket.to(this.roomId).emit('canvas', data);
     		}
-
     	}
     	else if(data.action=="tool")
     	{

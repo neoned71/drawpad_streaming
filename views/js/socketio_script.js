@@ -8,8 +8,9 @@ console.log("query: "+queryString);
 socket = io("", {path:"/socket.io",query:queryString});//working...data reaching onconnect function
 
 var myPeer;
+// socket.emit('join_room', roomId, userId);
 
-console.log("user id: "+userId);
+console.log("user id:"+userId);
 const peers = {}
 
 navigator.mediaDevices.getUserMedia({
@@ -31,12 +32,13 @@ navigator.mediaDevices.getUserMedia({
 function initializePeer(stream){
   myPeer = new Peer(userId, {
     host: '/',
-    port: '3001',
+    port: '11001',
     config: {'iceServers': [
       { url: 'stun:stun.l.google.com:19302' },
-      { url: 'turn:thrustacademy.com:3478', credential: 'neoned71',username:'neon' }
+      { url: 'turn:drawpad.neoned71.com:3478', credential: 'neon',username:'neoned71' }
     ]}
   });
+  console.log(myPeer);
 
   myPeer.on('open', id => {
     console.log("id recieved: "+id+" userId:"+userId);
@@ -44,8 +46,8 @@ function initializePeer(stream){
   });
 
 
-  
   var myVideo = document.createElement('video');
+  myVideo.muted=true;
   setStreamToVideoElement(myVideo, stream);
 
   myPeer.on('call', call => {
@@ -75,12 +77,14 @@ function initializePeer(stream){
     console.log("inside user disconnected 1"+userId);
     // callNewUser(userId, stream);
   });
-}
 
 
 myPeer.on('connection',()=>{
   console.log("connection peer");
 });
+}
+
+
 
 
 
@@ -113,50 +117,50 @@ function setStreamToVideoElement(video, stream) {
   videoGrid.append(video);
 }
 
-// const createMediaStreamFake = () => {
-//   console.log("createMediaStreamFake");
-//       // return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width:640, height:480 })]);
-//       return new MediaStream([createEmptyVideoTrack({ width:1000, height:480 })]);
-// }
+const createMediaStreamFake = () => {
+  console.log("createMediaStreamFake");
+      // return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width:640, height:480 })]);
+      return new MediaStream([createEmptyVideoTrack({ width:1000, height:480 })]);
+}
 
-// const createEmptyAudioTrack = () => {
-//   console.log("createEmptyAudioTrack");
-//     const ctx = new AudioContext();
-//     const oscillator = ctx.createOscillator();
-//     const dst = oscillator.connect(ctx.createMediaStreamDestination());
-//     oscillator.start();
-//     const track = dst.stream.getAudioTracks()[0];
-//     return Object.assign(track, { enabled: false });
-// }
+const createEmptyAudioTrack = () => {
+  console.log("createEmptyAudioTrack");
+    const ctx = new AudioContext();
+    const oscillator = ctx.createOscillator();
+    const dst = oscillator.connect(ctx.createMediaStreamDestination());
+    oscillator.start();
+    const track = dst.stream.getAudioTracks()[0];
+    return Object.assign(track, { enabled: false });
+}
 
-// const createEmptyVideoTrack = ({ width, height }) => {
-//   console.log("createEmptyVideoTrack");
-//     var canvas = Object.assign(document.createElement('canvas'), { width, height });
-//     var ctx=canvas.getContext('2d');
-//     window.ctx=ctx;
-//     ctx.fillStyle = "#FF0000";
-//     ctx.fillRect(0, 0, width, height);
-//     // canvas.
-//     // canvas.getContext('2d').fillRect(0, 0, width, height);
-//     base_image = new Image();
-//     window.base_image=base_image;
-//     base_image.width="100%";
+const createEmptyVideoTrack = ({ width, height }) => {
+  console.log("createEmptyVideoTrack");
+    var canvas = Object.assign(document.createElement('canvas'), { width, height });
+    var ctx=canvas.getContext('2d');
+    window.ctx=ctx;
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(0, 0, width, height);
+    // canvas.
+    // canvas.getContext('2d').fillRect(0, 0, width, height);
+    base_image = new Image();
+    window.base_image=base_image;
+    base_image.width="100%";
   
-//   base_image.src = '/img/logo.png';
-//   base_image.onload = function(){
-//     ctx.drawImage(base_image, 0, 0);
-//   }
+  base_image.src = '/img/logo.png';
+  base_image.onload = function(){
+    ctx.drawImage(base_image, 0, 0);
+  }
   
-//   console.log(base_image);
-//   // var videoGrid = document.getElementById('video-grid');
-//   // videoGrid.append(canvas);
+  console.log(base_image);
+  // var videoGrid = document.getElementById('video-grid');
+  // videoGrid.append(canvas);
 
-//     const stream = canvas.captureStream(25);
-//     // console.log(stream);window.stream=stream;
-//     const track = stream.getVideoTracks()[0];
+    const stream = canvas.captureStream(25);
+    // console.log(stream);window.stream=stream;
+    const track = stream.getVideoTracks()[0];
   
-//     return Object.assign(track, { enabled: false });
-// };
+    return Object.assign(track, { enabled: false });
+};
 
 
 

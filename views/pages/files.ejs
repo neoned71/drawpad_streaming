@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DRAWPAD</title>
+	<!-- Source code is kept open for the learners... -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-client_id" content="567112201060-i34emibvl8p17rrgh1trctlgvn8n2o19.apps.googleusercontent.com">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   <link rel="stylesheet" type="text/css" href="/student/css/semantic.css">
+
+  
+
+</head>
+
+
+<style>
+body{
+	/*background-repeat: no-repeat;*/
+	background-size: cover;
+	background-color: #111;
+	/*background-image:url('/img/a.png');*/
+	width:100%;
+	height:100%;
+	margin-left: auto;
+	margin-right:auto;
+}
+/*div{
+	width:100%;
+}*/
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(fonts/tammudu.ttf);
+}
+
+@font-face {
+  font-family: merienda;
+  src: url(fonts/merienda.ttf);
+}
+
+
+
+.logo{
+	width:50%;
+	margin-right:auto;
+	margin-left: auto;
+
+}
+
+.logoi{
+	width:20vw;
+	margin-right:auto;
+	margin-left: auto;
+
+}
+
+.font-merianda{
+	font-family: merienda;
+}
+
+.font-tam{
+	font-family: myFirstFont;
+}
+
+.Iam {
+  width:100%;
+  background-color:#444;
+  display:block;
+  padding: 0;
+  font: normal 40px/50px sans-serif;
+  color: #999;
+}
+.Iam p {
+  height: 50px;
+  float: left;
+  margin-right: 0.3em;
+}
+.Iam b {
+  float: left;
+  overflow: hidden;
+  position: relative;
+  height: 50px;
+  top: 40px;
+}
+.Iam .innerIam {
+  display: inline-block;
+  color: #e14;
+  position: relative;
+  white-space: nowrap;
+  top: 0;
+  left: 0;
+
+
+/*animation*/
+-webkit-animation:move 10s;
+   -moz-animation:move 10s;
+    -ms-animation:move 10s;
+     -o-animation:move 10s;
+        animation:move 10s;
+/*animation-iteration-count*/
+-webkit-animation-iteration-count:infinite;
+   -moz-animation-iteration-count:infinite;
+    -ms-animation-iteration-count:infinite;
+     -o-animation-iteration-count:infinite;
+        animation-iteration-count:infinite;
+/*animation-delay*/
+-webkit-animation-delay:1s;
+   -moz-animation-delay:1s;
+    -ms-animation-delay:1s;
+     -o-animation-delay:1s;
+        animation-delay:1s;
+}
+@keyframes move{
+0%  { top: 0px; }
+20% { top: -50px; }
+40% { top: -100px; }
+60% { top: -150px; }
+80% { top: -200px; }
+}
+
+@-webkit-keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+@-moz-keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+@-o-keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+@keyframes move {
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
+}
+
+a{
+	text-decoration: none;
+}
+
+.dp{
+	width:20%;
+}
+
+.term{
+	width: 50%;
+	padding-top:2em;
+	background-size: cover;
+	background-color: #000;
+	height:100vh;
+	/*background-image:url('/img/a.png');*/
+	margin-left: auto;
+	margin-right:auto;
+}
+
+
+</style>
+
+<script type="text/javascript">
+    function createDirectory(name){
+    console.log("creating directory");
+    if(name.length==0)
+    {
+        alert("please enter a name first");
+        return;
+    }
+    var pathname = window.location.pathname.split( '/' );
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4){
+          var result=this.responseText;
+          try {
+                var jsobj=JSON.parse(result);
+                if(jsobj.status=="success")
+                {
+                  console.log(jsobj);
+                  location.reload();
+                //   window.location='/room/'+jsobj.room_id.toString();
+                }
+                else
+                {
+                  alert(jsobj.message);
+                }
+              }
+              catch(err) {
+                alert("something went wrong");
+                console.log(err);
+              }
+            
+        }
+    };
+    
+
+    xhr.open('POST', '/directories/files/create/'+pathname[pathname.length-1]);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify({"name":name}));
+  }
+</script>
+<body>
+
+<div class="term">
+	<div class="w3-center w3-margin">	
+		<!-- <img class="logoi" src="/img/logo.png" > -->
+        <div class="w3-center w3-margin w3-text-blue" style="font-size: 1000%;"> 
+            DRAWPAD
+          </div>
+	</div>
+
+	<div class="w3-center w3-text-gray w3-margin">	
+		<p>FILES<br> for <%= user.name %></p>
+        <input type="text" width="200px" class="w3-center w3-padding w3-margin" id="name" name="name" placeholder="name">
+        <button onclick="createDirectory(document.getElementById('name').value);">Create A File</button>
+        <hr>
+        <p>Files Count: <%= files.length %></p>
+        <table width="100%;" class="w3-center">
+            <% for(var i=0; i < files.length; i++) { %>
+               <tr>
+                 <td><%= files[i].name %></td>
+                 <td><a href="/directories/files/access/<%= directory %>/<%= files[i]._id %>">OPEN</a> </td>
+               </tr>
+            <% } %>
+            </table>
+        
+		
+	</div>
+
+</body>
+</html>
+
