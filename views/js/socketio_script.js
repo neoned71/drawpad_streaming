@@ -1,3 +1,46 @@
+// socket.emit('message', "this is a test"); 
+//sending to sender-client only
+
+// socket.broadcast.emit('message', "this is a test"); 
+//sending to all clients except sender
+
+// socket.broadcast.to('game').emit('message', 'nice game'); 
+//sending to all clients in 'game' room(channel) except sender
+
+// socket.to('game').emit('message', 'enjoy the game'); 
+//sending to sender client, only if they are in 'game' room(channel)
+
+// socket.broadcast.to(socketid).emit('message', 'for your eyes only'); 
+//sending to individual socketid
+
+// io.emit('message', "this is a test"); 
+//sending to all clients, include sender
+
+// io.in('game').emit('message', 'cool game'); 
+//sending to all clients in 'game' room(channel), include sender
+
+// io.of('myNamespace').emit('message', 'gg'); 
+//sending to all clients in namespace 'myNamespace', include sender
+
+// socket.emit(); 
+//send to all connected clients
+
+// socket.broadcast.emit(); 
+//send to all connected clients except the one that sent the message
+
+// socket.on();
+ //event listener, can be called on client to execute on server
+
+// io.sockets.socket(); 
+//for emiting to specific clients
+
+// io.sockets.emit(); 
+//send to all connected clients (same as socket.emit)
+
+// io.sockets.on() ;
+ //initial connection from a client.
+
+
 var token="token";
 var uId="uId";
 
@@ -338,102 +381,102 @@ socket.on("canvas",(data)=>{
 
 
 // view plot_script.js
-socket.on("grapher",(data)=>{
-  console.log(data);
+// socket.on("grapher",(data)=>{
+//   console.log(data);
   
-  if(data.action === null){
-    console.log("no Action present grapher");
-    return;
-  }
-  if(data.action=="plot")
-  {
-    window.grapher.plot(data.data.equation);
-  }
-  else if(data.action=="event")
-  {
-    window.grapher.emit(data.type,data.data);
-  }
+//   if(data.action === null){
+//     console.log("no Action present grapher");
+//     return;
+//   }
+//   if(data.action=="plot")
+//   {
+//     window.grapher.plot(data.data.equation);
+//   }
+//   else if(data.action=="event")
+//   {
+//     window.grapher.emit(data.type,data.data);
+//   }
 
-  // doubts raised and lowered to send socket emit
+//   // doubts raised and lowered to send socket emit
 
-});
+// });
 
 
-socket.on("mathtool",(data)=>{
-  console.log(data);
+// socket.on("mathtool",(data)=>{
+//   console.log(data);
   
-  if(data.action === null){
-    console.log("no Action present calculator");
-    return;
-  }
+//   if(data.action === null){
+//     console.log("no Action present calculator");
+//     return;
+//   }
 
-  if(data.action=="set")
-  {
-    window.mathtool.set(data.data.id);
-  }
+//   if(data.action=="set")
+//   {
+//     window.mathtool.set(data.data.id);
+//   }
 
-  else if(data.action=="new")
-  {
-     window.mathtool.newQuery(data.data.query);
-  }
+//   else if(data.action=="new")
+//   {
+//      window.mathtool.newQuery(data.data.query);
+//   }
 
-});
+// });
 
-socket.on("pdf",(data)=>{
-  console.log(data);
-  if(data.action === null){
-    console.log("no Action present pdf");
-    return;
-  }
-  if(data.action=="set_file")
-  {
-    if(window.files.has(data.data.file_id))
-    window.pdf.loadPdf(window.files.get(data.data.file_id).href);
-  }
-  else if(data.action=="set_page")
-  {
-    window.pdf.setPage(data.data.page_number);
-  }
+// socket.on("pdf",(data)=>{
+//   console.log(data);
+//   if(data.action === null){
+//     console.log("no Action present pdf");
+//     return;
+//   }
+//   if(data.action=="set_file")
+//   {
+//     if(window.files.has(data.data.file_id))
+//     window.pdf.loadPdf(window.files.get(data.data.file_id).href);
+//   }
+//   else if(data.action=="set_page")
+//   {
+//     window.pdf.setPage(data.data.page_number);
+//   }
 
-});
+// });
 
-socket.on("files",(data)=>{
-  console.log(data);
-  if(data.action === null){
-    console.log("no Action present pdf");
-    return;
-  }
-  if(data.action=="new")
-  {
-    window.files.insertFile(data.file);
-  }
-
-  
-  // else if(data.action=="set_page")
-  // {
-  //   window.pdf.setPage(data.data.page_number);
-  // }
-
-});
-
-
-socket.on("control",(data)=>{
-  console.log(data);
-  if(data.action === null){
-    console.log("no Action present control");
-    return;
-  }
-  if(data.action=="screen")
-  {
-    window.control.setScreen(data.data.screen);
-  }
-  else if(data.action=="status")
-  {
-    window.control.setStatus(data.data.status);
-  }
+// socket.on("files",(data)=>{
+//   console.log(data);
+//   if(data.action === null){
+//     console.log("no Action present pdf");
+//     return;
+//   }
+//   if(data.action=="new")
+//   {
+//     window.files.insertFile(data.file);
+//   }
 
   
-});
+//   // else if(data.action=="set_page")
+//   // {
+//   //   window.pdf.setPage(data.data.page_number);
+//   // }
+
+// });
+
+
+// socket.on("control",(data)=>{
+//   console.log(data);
+//   if(data.action === null){
+//     console.log("no Action present control");
+//     return;
+//   }
+//   if(data.action=="screen")
+//   {
+//     window.control.setScreen(data.data.screen);
+//   }
+//   else if(data.action=="status")
+//   {
+//     window.control.setStatus(data.data.status);
+//   }
+
+  
+// });
 
 function emit(d){
   socket.emit("soel",d);

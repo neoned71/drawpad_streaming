@@ -7,7 +7,8 @@ controllerForUploads=false;
 his=[];
 shapesArr=[];
 shapesMap= new Map();
-id=0;
+id=500*(Math.floor(Math.random()*10)*Math.floor(Math.random()*100));
+console.log(id);
 
 uploadPosition=0;
 fId=fileId;
@@ -103,7 +104,7 @@ class Canvas{
 			this.toolSelected=true;
 			this.tool=tool;
 			this.tools.get(tool).activate();
-			appendHistory({a:"tool",d:{tool:tool}});
+			// appendHistory({a:"tool",d:{tool:tool}});
 			// his.push();
 			//socket.emit("canvas",{action:"tool",data:{tool:tool}});
 		}
@@ -114,37 +115,58 @@ class Canvas{
 	setRadius(radius)
 	{
 		canvasRadius=radius;
-		appendHistory({a:"radius",d:{radius:radius}});
+		// appendHistory({a:"radius",d:{radius:radius}});
 		// his.push();
 	}
 
 	setColor(color)
 	{
 		canvasColor=color;
-		appendHistory({a:"color",d:{color:color}});
+		// appendHistory({a:"color",d:{color:color}});
 		// his.push();
+	}
+
+	drawPath(obj,phase)
+	{
+		switch(phase){
+			case 0:
+				var temp=new PathC(obj.id,obj.thickness,obj.color,obj.data,true);
+				shapesArr.push(temp);	
+				var shape = new Path();
+				shape.strokeColor = obj.color;
+				shape.strokeWidth=obj.thickness;
+				shape.strokeCap = 'round';
+				shape.moveTo(new Point(obj.data[0]));
+				shapesMap.set(obj.id,{paper:shape,obj:temp});
+				break;
+			case 1:
+				if(shapesMap.has(obj.id))
+				{
+					var shape = shapesMap.get(obj.id).paper;
+					shape.lineTo(new Point(obj.data[obj.data.length-1]));
+				}
+				break;
+			case 2:
+				if(shapesMap.has(obj.id))
+				{
+					var shape = shapesMap.get(obj.id).paper;
+					var temp = shapesMap.get(obj.id).obj;
+					shape.simplify();
+					canvasElements.push(shape);
+					shapesArr.push(obj);
+				}
+				break;
+			}
 	}
 
 	drawObj(obj)
 	{
 		if(obj.type=="p")
 		{
-			var temp=new PathC(obj.id,obj.thickness,obj.color,obj.data,true);
-			shapesArr.push(temp);	
-			var shape = new Path();
-			shape.strokeColor = obj.color;
-			shape.strokeWidth=obj.thickness;
-			shape.strokeCap = 'round';
-			shape.smooth();
-			shape.moveTo(new Point(obj.data[0]));
-			shapesMap.set(obj.id,{paper:shape,obj:temp});
-			for(var i=0;i<obj.data.length;i++)
-			{
-				shape.lineTo(new Point(obj.data[i]));
-			}
-			shape.simplify();
-			canvasElements.push(shape);
-			shapesArr.push(temp);
+			this.drawPath(obj,0);
+			this.drawPath(obj,1);
+			this.drawPath(obj,2);
+			
 		}
 		else if(obj.type=="c")
 		{
@@ -154,9 +176,6 @@ class Canvas{
 			console.log(obj.data);
 			var from=new Point(obj.data[0]);
 			var to = new Point(obj.data[1]);
-
-			// var dp = new Point(j.downPoint);
-			// 	var p=new Point(j.point);
 			var radius=from.subtract(to).length;
 			var shape = new Shape.Circle(from,radius);
 			shape.strokeColor = obj.color;
@@ -211,7 +230,7 @@ class Canvas{
 			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
 			console.log("J: "+j);
 			// socket.emit("canvas",{action:"event",type:"mouseDown",data:j});
-			emitEventCanvas("mouseDown",j);
+			// emitEventCanvas("mouseDown",j);
 			// console.log("g");
 			id++;
 			currentObj=new CircleC(id,canvasRadius, canvasColor,j.downPoint,false);
@@ -222,7 +241,6 @@ class Canvas{
 			shape.strokeCap = 'round';
 			shape.strokeColor = canvasColor;
 			shape.strokeWidth=canvasRadius;
-
 			shapesMap.set(id,{paper:shape,obj:currentObj});
 
 		}
@@ -258,7 +276,7 @@ class Canvas{
 			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};			// console.log(j);
 				// socket.send({app:"paper",method:"circleT.onMouseDown",data:j});
 			// socket.emit("canvas",{action:"event",type:"mouseUp",data:j});
-			emitEventCanvas("mouseUp",j);
+			// emitEventCanvas("mouseUp",j);
 			var dp = new Point(j.downPoint);
 				var p=new Point(j.point);
 				var radius=dp.subtract(p).length;
@@ -288,7 +306,7 @@ class Canvas{
 			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};			// console.log(j);
 				// socket.send({app:"paper",method:"circleT.onMouseDown",data:j});
 			// socket.emit("canvas",{action:"event",type:"mouseDown",data:j});
-			emitEventCanvas("mouseDown",j);
+			// emitEventCanvas("mouseDown",j);
 			//var path = new Path();
 
 			id++;
@@ -337,21 +355,13 @@ class Canvas{
 			var p=new Point(j.point);
 			currentObj.data.push(j.point);
 			shape.segments[1].point=p;
-			emitEventCanvas("mouseUp",j);
-			
-			//console.log(shape);
-
+			// emitEventCanvas("mouseUp",j);
 			canvasElements.push(shape);
 			currentObj.append(j.point);
 			currentObj.setFinished(true);
-
 			uploadObj(currentObj);
-
-
 			currentCanvasElement = null;
 		}
-
-		
 
 
 		var pathT = new Tool();
@@ -370,11 +380,8 @@ class Canvas{
 			shape.smooth();
 			shape.moveTo(new Point(j.downPoint));
 			currentCanvasElement=shape;
-			
-
 			shapesMap.set(id,{paper:shape,obj:currentObj});
-			emitEventCanvas("mouseDown",j);
-
+			emitEventCanvas(currentObj,0);
 		}
 
 		
@@ -382,19 +389,17 @@ class Canvas{
 		pathT.onMouseMove = function(event){
 
 			if(currentCanvasElement!=null){
-				var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};			// console.log(j);
-			// // socket.emit("canvas",{action:"event",type:"mouseMove",data:j});
-			emitEventCanvas("mouseMove",j);
-			currentObj.append(j.point);
-			currentCanvasElement.lineTo(new Point(j.point));
+				var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
+				emitEventCanvas(currentObj,1);
+				currentObj.append(j.point);
+				currentCanvasElement.lineTo(new Point(j.point));
 			}
 		}
 
 		
 		pathT.onMouseUp = function(event){
-			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};			// console.log(j);
-			// // socket.emit("canvas",{action:"event",type:"mouseUp",data:j});
-			emitEventCanvas("mouseUp",j);
+			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
+			emitEventCanvas(currentObj,2);
 
 			currentCanvasElement.simplify();
 			canvasElements.push(currentCanvasElement);
@@ -410,24 +415,18 @@ class Canvas{
 
 		this.setTool('path');
 		this.initialized=true;
-
-
 	}
 
 	undo(sendToServer=true)
 	{
+		
 		if(sendToServer)
 		{
 			id++;
 			let temp=new UndoC(id);
 			uploadObj(temp);
 		}
-		
 
-		// socket.emit("canvas",{action:"undo"});
-		appendHistory({a:"undo"});
-		// his.push();
-		// socket.send({app:"paper",method:"rem",data:null});
 		if(canvasElements.length>0)
 		{
 			var p =canvasElements.pop();
@@ -450,6 +449,7 @@ class Canvas{
 		var scope = new paper.PaperScope();
 		window.scope=scope;
 		window.canvas.initialize(scope);
+		window.a();
 	}
 
 	//to be linked to a button
@@ -492,21 +492,19 @@ class Canvas{
 		console.log("undo");
 		if(window.canvas){
 			window.canvas.undo();
-			//socket.emit("canvas",{action:"undo"});
+			
 		}
 		
 	}
-	function emitEventCanvas(event,data)
+	function emitEventCanvas(obj,phase)
 	{
 		if(data==null)
 		{
 			console.log("problem");
 		}
-		//console.log("emmiting "+data);
-
-		appendHistory({a:"event",t:event,d:data});
-		// his.push();
-		// socket.emit("canvas",{a:"event",t:event,d:data});
+		socket.emit("canvas",{obj:obj,phase:obj});
+		// socket.emit("canvas",{obj:})
+		
 	}
 
 	function saveStateToServer(directoryId,fileId,data=his)
@@ -516,14 +514,12 @@ class Canvas{
 	}
 
 
-	//called once in the beginning so it should enable the controllerForUploads
 	function getStateFromServer(directoryId,fileId)
 	{
 		dId=roomId;
 		fId=fileId;
 		console.log("getting state!!");
 		webRequestFetchData('/room_api/files/retrieve/'+directoryId+"/"+fileId,"GET").then(data =>{
-			// console.log("executing: "+JSON.stringify(data.data.data));
 			console.log(data);
 			var d=data.data.data;
 			his=[];
@@ -535,8 +531,7 @@ class Canvas{
 			}
 		});
 		currentCanvasElement=null;
-		// controllerForUploads=true;
-		// uploadPosition=his.length;
+
 	}
 
 	function clearState(directoryId,fileId){
@@ -565,16 +560,7 @@ class Canvas{
 		window.canvas.setTool("path");
 
 		webRequestFetchData('/room_api/files/clear/'+directoryId+"/"+fileId,"GET").then(data =>{
-			// console.log("executing: "+JSON.stringify(data.data.data));
 			console.log(data);
-			// var d=data.data.data;
-			// his=[];
-			// for(var i =0 ; i< d.length; i++)
-			// {
-			// 	//console.log("executing:"+i);
-			// 	window.canvas.drawObj(d[i]);
-			// 	//his=data;
-			// }
 		});
 		}
 		else{
@@ -633,20 +619,7 @@ class Canvas{
 	window.addEventListener("online", (event) => {
 		networkStatus=true;
 		console.log("network online");
-		// checkForUploads();
 	  });
-
-	// function checkForUploads(){
-	// 	console.log("checking for uploads");
-	// 	if(controllerForUploads && (his.length - uploadPosition > requestLimit))
-	// 	{
-	// 		uploadContent();
-	// 		return true;
-	// 	}
-	// 	else{
-	// 		return false;
-	// 	}
-	// }
 
 
 	function uploadContent(){
@@ -672,40 +645,13 @@ class Canvas{
 	}
 
 
-
-	function appendHistory(data)
-	{
-		console.log("appending history");
-		his.push(data);
-		if(networkStatus)
+	function executeAction(data){
+		var obj=data.obj;
+		var phase = obj.phase;
+		if(obj.type=="p")
 		{
-			// checkForUploads();
+			drawPath(obj,phase);
+			console.log("creating path element");
 		}
 	}
-
-
-
-	  
-	//   postData('https://example.com/answer', { answer: 42 })
-	// 	.then(data => {
-	// 	  console.log(data); // JSON data parsed by `data.json()` call
-	// 	});
-//start here till end
-// getPercentagePoint(event)
-// 	{
-// 		// console.log(JSON.stringify(event));
-// 		let p=event.point;
-// 		// p.x=(p.x)/w;
-// 		// p.y=(p.y)/h;
-
-// 		let dp=event.downPoint
-// 		// dp.x=(dp.x)/w;
-// 		// dp.y=(dp.y)/h;
-// 		let pobj={point:p,downPoint:dp}
-// 		//console.log(pobj.point.x);
-// 		return pobj;
-// 	}
-
-
-//end
 
