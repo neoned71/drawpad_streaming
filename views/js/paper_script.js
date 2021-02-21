@@ -126,8 +126,10 @@ class Canvas{
 		// his.push();
 	}
 
-	drawPath(obj,phase)
+	drawPath(obj,phase,realtime=false)
 	{
+		console.log(phase);
+		// console.log(obj);
 		switch(phase){
 			case 0:
 				var temp=new PathC(obj.id,obj.thickness,obj.color,obj.data,true);
@@ -143,7 +145,17 @@ class Canvas{
 				if(shapesMap.has(obj.id))
 				{
 					var shape = shapesMap.get(obj.id).paper;
-					shape.lineTo(new Point(obj.data[obj.data.length-1]));
+					if(realtime)
+					{
+						var tmp=new Point(obj.data[obj.data.length-1]);
+						shape.lineTo(tmp);
+						// shape.moveTo(tmp);
+					}
+					else{
+						for(var i =0 ; i< obj.data.length; i++){
+							shape.lineTo(obj.data[i]);
+						}
+					}
 				}
 				break;
 			case 2:
@@ -159,6 +171,98 @@ class Canvas{
 			}
 	}
 
+
+	drawLine(obj,phase)
+	{
+		console.log(phase);
+		console.log(obj);
+		switch(phase){
+			case 0:
+				var temp=new LineC(obj.id,obj.thickness,obj.color,obj.data,true);
+				shapesArr.push(temp);
+				var from=new Point(obj.data[0]);
+				var to = new Point(obj.data[0]);
+				var shape = new Path.Line(from,to);
+				shape.strokeColor = obj.color;
+				shape.strokeWidth=obj.thickness;
+				shape.strokeCap = 'round';
+				// shape.moveTo(new Point(obj.data[0]));
+				shapesMap.set(obj.id,{paper:shape,obj:temp});
+				break;
+			case 1:
+				if(shapesMap.has(obj.id))
+				{
+					var shape = shapesMap.get(obj.id).paper;
+					var tmp=new Point(obj.data[obj.data.length-1]);
+					shape.segments[1].point=tmp;
+				}
+				break;
+			case 2:
+				if(shapesMap.has(obj.id))
+				{
+					var shape = shapesMap.get(obj.id).paper;
+					var temp = shapesMap.get(obj.id).obj;
+					// shape.simplify();
+					var tmp=new Point(obj.data[obj.data.length-1]);
+					shape.segments[1].point=tmp;
+					canvasElements.push(shape);
+					shapesArr.push(obj);
+				}
+				break;
+			}
+		}
+
+
+	drawCircle(obj,phase)
+	{
+		
+		
+		switch(phase){
+			case 0:
+				console.log("c:"+phase);
+				currentObj=new CircleC(id,canvasRadius, canvasColor,obj.data[0],false);
+				shapesArr.push(currentObj);
+
+				var shape= new Shape.Circle(obj.data[0],1);
+				// currentCanvasElement=shape;
+				shape.strokeCap = 'round';
+				shape.strokeColor = canvasColor;
+				shape.strokeWidth=canvasRadius;
+				shapesMap.set(obj.id,{paper:shape,obj:currentObj});
+				break;
+			case 1:
+				if(shapesMap.has(obj.id))
+				{
+					
+					var shape = shapesMap.get(obj.id).paper;
+					// console.log(shape);
+					shape.radius=obj.radius;
+				}
+				break;
+			case 2:
+				if(shapesMap.has(obj.id))
+				{
+					var shape = shapesMap.get(obj.id).paper;
+					shape.radius=obj.radius;
+					console.log("c r "+obj.radius);
+					canvasElements.push(shape);
+					shapesArr.push(obj);
+					// currentCanvasElement=null;
+				}
+				// else{
+				// 	console.log("sdas");
+				// }
+				break;
+			}
+		}
+
+
+		drawUndo()
+		{
+			this.undo(false);
+		}
+	
+
 	drawObj(obj)
 	{
 		if(obj.type=="p")
@@ -170,39 +274,49 @@ class Canvas{
 		}
 		else if(obj.type=="c")
 		{
-			console.log("drawing circle");
-			var temp=new CircleC(obj.id,obj.thickness,obj.color,obj.data,true);
-			shapesArr.push(temp);
-			console.log(obj.data);
-			var from=new Point(obj.data[0]);
-			var to = new Point(obj.data[1]);
-			var radius=from.subtract(to).length;
-			var shape = new Shape.Circle(from,radius);
-			shape.strokeColor = obj.color;
-			shape.strokeWidth=obj.thickness;
-			shape.strokeCap = 'round';
-			shapesMap.set(obj.id,{paper:shape,obj:temp});
-			canvasElements.push(shape);
-			shapesArr.push(temp);
+			// console.log(obj);
+			this.drawCircle(obj,0);
+			this.drawCircle(obj,2);
+			// console.log("drawing circle");
+			// var temp=new CircleC(obj.id,obj.thickness,obj.color,obj.data,true);
+			// shapesArr.push(temp);
+			// console.log(obj.data);
+			// var from=new Point(obj.data[0]);//center
+			// // var to = new Point(obj.data[1]);
+			// var radius=obj.radius;
+			// var shape = new Shape.Circle(from,radius);
+			// shape.strokeColor = obj.color;
+			// shape.strokeWidth=obj.thickness;
+			// shape.strokeCap = 'round';
+
+
+
+
+			// shapesMap.set(obj.id,{paper:shape,obj:temp});
+			// canvasElements.push(shape);
+			// shapesArr.push(temp);
 		}
 		else if(obj.type=="l")
 		{
-			var temp=new LineC(obj.id,obj.thickness,obj.color,obj.data,true);
-			shapesArr.push(temp);
-			var from=new Point(obj.data[0]);
-			var to = new Point(obj.data[1]);
-			var shape = new Path.Line(from, to);
-			shape.strokeColor = obj.color;
-			shape.strokeWidth=obj.thickness;
-			shape.strokeCap = 'round';
-			shapesMap.set(obj.id,{paper:shape,obj:temp});
-			canvasElements.push(shape);
-			shapesArr.push(temp);
+
+			this.drawLine(obj,0);
+			this.drawLine(obj,2);
+			// var temp=new LineC(obj.id,obj.thickness,obj.color,obj.data,true);
+			// shapesArr.push(temp);
+			// var from=new Point(obj.data[0]);
+			// var to = new Point(obj.data[1]);
+			// var shape = new Path.Line(from, to);
+			// shape.strokeColor = obj.color;
+			// shape.strokeWidth=obj.thickness;
+			// shape.strokeCap = 'round';
+			// shapesMap.set(obj.id,{paper:shape,obj:temp});
+			// canvasElements.push(shape);
+			// shapesArr.push(temp);
 		}
 
 		else if(obj.type=="u")
 		{
-			this.undo(false);
+			this.drawUndo();
 		}
 		
 	}
@@ -242,6 +356,7 @@ class Canvas{
 			shape.strokeColor = canvasColor;
 			shape.strokeWidth=canvasRadius;
 			shapesMap.set(id,{paper:shape,obj:currentObj});
+			emitEventCanvas(currentObj,0);
 
 		}
 
@@ -261,6 +376,8 @@ class Canvas{
 				// var j=({j:event.point,downPoint:j.downPoint});
 				// emitEventCanvas("mouseMove",j);
 				shape.radius=radius;
+				currentObj.radius=radius;
+				emitEventCanvas(currentObj,1);
 				// console.log(j);
 				// console.log(shape);
 				// shape.strokeColor = canvasColor;
@@ -278,23 +395,25 @@ class Canvas{
 			// socket.emit("canvas",{action:"event",type:"mouseUp",data:j});
 			// emitEventCanvas("mouseUp",j);
 			var dp = new Point(j.downPoint);
-				var p=new Point(j.point);
-				var radius=dp.subtract(p).length;
-				console.log(radius);
-				var shape=currentCanvasElement;		
-				// var j=({j:event.point,downPoint:j.downPoint});
-				// emitEventCanvas("mouseMove",j);
-				shape.radius=radius;
+			var p=new Point(j.point);
+			var radius=dp.subtract(p).length;
+			currentObj.radius=radius;
+			// console.log(radius);
+			var shape=currentCanvasElement;		
+			// var j=({j:event.point,downPoint:j.downPoint});
+			// emitEventCanvas("mouseMove",j);
+			shape.radius=radius;
 
-			var shape=currentCanvasElement;
-			// console.log(shape);
+			// var shape=currentCanvasElement;
+			console.log("radius:"+shape.radius);
 			canvasElements.push(shape);
 			currentCanvasElement = null;
 
-			currentObj.append(j.point);
+			// currentObj.append(j.point);
 			currentObj.setFinished(true);
-
+			console.log(currentObj);
 			uploadObj(currentObj);
+			emitEventCanvas(currentObj,2);
 		
 		}
 
@@ -324,8 +443,8 @@ class Canvas{
 			shape.strokeWidth=canvasRadius;
 			shape.strokeCap = 'round';
 			shape.smooth();
-
 			shapesMap.set(id,{paper:shape,obj:currentObj});
+			emitEventCanvas(currentObj,0);
 		}
 
 		lineT.onMouseMove = function(event){
@@ -336,12 +455,16 @@ class Canvas{
 				// socket.send({app:"paper",method:"circleT.onMouseDown",data:j});
 			// socket.emit("canvas",{action:"event",type:"mouseMove",data:j});
 			// emitEventCanvas("mouseMove",j);
+
+			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
 			
 				var p=new Point(event.point);
 				//var radius=dp.subtract(p).length;
 				var shape=currentCanvasElement;
 				//console.log(shape);
+				currentObj.data[1]=j.point;
 				shape.segments[1].point=p;
+				emitEventCanvas(currentObj,1);
 			}
 			
 		}
@@ -353,14 +476,15 @@ class Canvas{
 
 			// // socket.emit("canvas",{action:"event",type:"mouseUp",data:j});
 			var p=new Point(j.point);
-			currentObj.data.push(j.point);
+			currentObj.data[1]=(j.point);
 			shape.segments[1].point=p;
 			// emitEventCanvas("mouseUp",j);
 			canvasElements.push(shape);
-			currentObj.append(j.point);
+			// currentObj.append(j.point);
 			currentObj.setFinished(true);
 			uploadObj(currentObj);
 			currentCanvasElement = null;
+			emitEventCanvas(currentObj,2);
 		}
 
 
@@ -419,25 +543,55 @@ class Canvas{
 
 	undo(sendToServer=true)
 	{
-		
 		if(sendToServer)
 		{
 			id++;
 			let temp=new UndoC(id);
 			uploadObj(temp);
+			emitEventCanvas(temp);
 		}
-
 		if(canvasElements.length>0)
 		{
 			var p =canvasElements.pop();
 			p.remove();
-			
 		}
 		else
 		{
 			console.log("recent is empty");
 		}
-		
+	}
+
+	executeAction(data){
+		var obj=data.obj;
+		var phase = data.phase;
+		if(obj.type=="p")
+		{
+			this.drawPath(obj,phase,true);
+			console.log("creating path element");
+		}
+		if(obj.type=="c")
+		{
+			this.drawCircle(obj,phase);
+			console.log("creating circle element");
+		}
+
+		if(obj.type=="l")
+		{
+			this.drawLine(obj,phase);
+			console.log("creating line element");
+		}
+
+		if(obj.type=="u")
+		{
+			this.drawUndo();
+			console.log("creating undo element");
+		}
+
+		if(obj.type=="clr")
+		{
+			window.canvas.clearState(false);
+			console.log("clearing all");
+		}
 	}
 }
 
@@ -496,13 +650,13 @@ class Canvas{
 		}
 		
 	}
-	function emitEventCanvas(obj,phase)
+	function emitEventCanvas(obj,phase=0)
 	{
-		if(data==null)
-		{
-			console.log("problem");
-		}
-		socket.emit("canvas",{obj:obj,phase:obj});
+		// if(data==null)
+		// {
+			// console.log("problem");
+		// }
+		socket.emit("canvas",{obj:obj,phase:phase});
 		// socket.emit("canvas",{obj:})
 		
 	}
@@ -534,34 +688,36 @@ class Canvas{
 
 	}
 
-	function clearState(directoryId,fileId){
+	function clearState(emit=true){
 		let t=confirm("Sure about deleting all..?");
+		
 		if(t)
 		{
 			while(canvasElements.length>0)
-		{
-			window.canvas.undo();
-		}
-		his=[];
+			{
+				window.canvas.undo();
+			}
+			his=[];
 
-		dId=roomId;
-		fId=fileId;
+			dId=roomId;
+			fId=fileId;
 
-		shapesArr=[];
-		shapesMap=new Map();
+			shapesArr=[];
+			shapesMap=new Map();
 
-		currentObj=null;
-		
-		
-		uploadPosition=0;
-		console.log("cleared");
-		window.canvas.setColor("white");
-		window.canvas.setRadius(3);
-		window.canvas.setTool("path");
+			currentObj=null;
+			currentCanvasElement=null;
+			window.canvas.setColor("white");
+			window.canvas.setRadius(3);
+			window.canvas.setTool("path");
 
-		webRequestFetchData('/room_api/files/clear/'+directoryId+"/"+fileId,"GET").then(data =>{
-			console.log(data);
-		});
+			webRequestFetchData('/room_api/files/clear/'+directoryId+"/"+fileId,"GET").then(data =>{
+				console.log(data);
+			});
+			if(emit)
+			{
+				emitEventCanvas({type:"clr"});
+			}
 		}
 		else{
 			console.log("cancelled");
@@ -645,13 +801,5 @@ class Canvas{
 	}
 
 
-	function executeAction(data){
-		var obj=data.obj;
-		var phase = obj.phase;
-		if(obj.type=="p")
-		{
-			drawPath(obj,phase);
-			console.log("creating path element");
-		}
-	}
+	
 

@@ -279,85 +279,85 @@ console.log(w+":"+h);
 
 
 
-socket.on("video",data=>{
-  if(data.action === null){
-    return false
-  }
-  else if(data.action=="feed")
-  {
-      var diff = Math.abs(new Date() - new Date(data.time)); 
-      playMedia(data.data);
-      return true;
-  }
-});
+// socket.on("video",data=>{
+//   if(data.action === null){
+//     return false
+//   }
+//   else if(data.action=="feed")
+//   {
+//       var diff = Math.abs(new Date() - new Date(data.time)); 
+//       playMedia(data.data);
+//       return true;
+//   }
+// });
 
 
-socket.on("question",(data)=>{
-  console.log(data);
+// socket.on("question",(data)=>{
+//   console.log(data);
   
-  if(data.action === null){
-    console.log("no Action present question");
-    return;
-  }
-  if(data.action=="insert")
-  {
-    window.questions.insertQuestion(data.data.question);
-  }
-  else if(data.action=="show")
-  {
-    window.questions.show(data.data.id);
-  }
-  else if(data.action=="disclose")
-  {
-    window.questions.disclose(data.data.id);
-  }
+//   if(data.action === null){
+//     console.log("no Action present question");
+//     return;
+//   }
+//   if(data.action=="insert")
+//   {
+//     window.questions.insertQuestion(data.data.question);
+//   }
+//   else if(data.action=="show")
+//   {
+//     window.questions.show(data.data.id);
+//   }
+//   else if(data.action=="disclose")
+//   {
+//     window.questions.disclose(data.data.id);
+//   }
 
-  else if(data.action=="remove")
-  {
-    window.questions.remove(data.data.id);
-  }
-   else if(data.action=="update_responses")
-  {
-    window.questions.updateResponses(data.data.id,data.data.responses);
-  }
-  // question.mark && question.unmark to send socket emit
-});
+//   else if(data.action=="remove")
+//   {
+//     window.questions.remove(data.data.id);
+//   }
+//    else if(data.action=="update_responses")
+//   {
+//     window.questions.updateResponses(data.data.id,data.data.responses);
+//   }
+//   // question.mark && question.unmark to send socket emit
+// });
 
 
-socket.on("chat",(data)=>{
-  console.log(data);
+// socket.on("chat",(data)=>{
+//   console.log(data);
   
-  if(data.action === null){
-    console.log("no Action present chat");
-    return;
-  }
-  else if(data.action=="new")
-  {
-    return window.chat.insertChat(data.data.chat);
-  }
-});
+//   if(data.action === null){
+//     console.log("no Action present chat");
+//     return;
+//   }
+//   else if(data.action=="new")
+//   {
+//     return window.chat.insertChat(data.data.chat);
+//   }
+// });
 
 
 // view doubt_script.js
-socket.on("doubt",(data)=>{
-  console.log(data);
+// socket.on("doubt",(data)=>{
+//   console.log(data);
   
-  if(data.action === null){
-    console.log("no Action present doubt");
-    return;
-  }
-  if(data.action=="enable")
-  {
-    doubts.enable(true);
-  }
-  else if(data.action=="disable")
-  {
-    doubts.enable(false);
-  }
+//   if(data.action === null){
+//     console.log("no Action present doubt");
+//     return;
+//   }
+//   if(data.action=="enable")
+//   {
+//     doubts.enable(true);
+//   }
+//   else if(data.action=="disable")
+//   {
+//     doubts.enable(false);
+//   }
 
-  // doubts raised and lowered to send socket emit
+//   // doubts raised and lowered to send socket emit
 
-});
+// });
 
 
 // view paper_script.js
@@ -367,11 +367,6 @@ socket.on("canvas",(data)=>{
   if(data.action === null){
     console.log("no Action present canvas");
     return;
-  }
-  if(data.count-1 != canvas.count)
-  {
-    console.log("counts dont match");
-    // window.canvas.requestState();
   }
   else{
     window.canvas.executeAction(data);

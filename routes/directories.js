@@ -82,7 +82,7 @@ router.get("/files/access/:directory/:file",(req, res, next) => {
     let ownerId=req.user._id;
     // let name=req.body.name;
 
-    Files.findOne({owner:ownerId,directory:req.params.directory,_id:req.params.file},function(err,file){
+    Files.findOne({directory:req.params.directory,_id:req.params.file},function(err,file){
         if (err) {
             console.log("some error occured"+err);
             res.end();
@@ -98,7 +98,7 @@ router.post("/files/save/:directory/:file",(req, res, next) => {
     let ownerId=req.user._id;
     let d=JSON.parse(req.body.data);
     let ret={message:"",status:"failed"};
-    Files.findOneAndUpdate({owner:ownerId,directory:req.params.directory,_id:req.params.file},{ $push: { data:d}},function(err){
+    Files.findOneAndUpdate({directory:req.params.directory,_id:req.params.file},{ $push: { data:d}},function(err){
         if(!err)
         {
             ret.status="success";
@@ -118,7 +118,7 @@ router.get("/files/clear/:directory/:file",(req, res, next) => {
     let ownerId=req.user._id;
     // let d=JSON.parse(req.body.data);
     let ret={message:"",status:"failed"};
-    Files.findOneAndUpdate({owner:ownerId,directory:req.params.directory,_id:req.params.file},{  data:[] },function(err){
+    Files.findOneAndUpdate({directory:req.params.directory,_id:req.params.file},{  data:[] },function(err){
         if(!err)
         {
             ret.status="success";

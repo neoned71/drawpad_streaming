@@ -17,7 +17,7 @@
 body{
 	/*background-repeat: no-repeat;*/
 	background-size: cover;
-	background-color: #eee;
+	/* background-color: #eee; */
 	/*background-image:url('/img/a.png');*/
 	width:100%;
 	height:100%;
@@ -173,40 +173,44 @@ a{
 <body>
 
 <div class="term">
-	<div class="w3-center w3-margin">	
-		<img class="logoi" src="/img/logo.png" >
+	<div class="w3-center w3-margin w3-text-blue" style="font-size: 200%;;">	
+		<!-- <img class="logoi" src="/img/logo.png" > -->
+    DRAWPAD
 	</div>
 
+  <div class="w3-center"> 
+    <button class="ui right labeled blue icon w3-button  w3-round w3-border" onclick="window.location='/directories'">
+  
+  View you own private Directories
+</button>
+  </div>
+
 	<div class="w3-center w3-text-gray w3-margin">	
-		<p>WELCOME<br> <%= name %></p>
+		
 		<img class="logo w3-circle dp" src="<%= imageUrl %>" >
+    <p>WELCOME<br> <%= name %></p>
 	</div>
 
 
 	
    <div class="w3-center w3-text-cyan "> 
-    <button class="ui right labeled blue icon button" onclick="createRoom();">
+    <button class="ui right labeled blue icon  w3-button  w3-round w3-border" onclick="createRoom();">
   <i class="right arrow icon"></i>
   CREATE
 </button>
   </div>
 
-  <hr class="w3-margin">
+  <!-- <hr class="w3-margin"> -->
 
 
-  <div class="w3-center w3-text-cyan ">  
+  <!-- <div class="w3-center w3-text-cyan ">  
     <div class="ui action input">
       <input type="text" placeholder="Room ID" id="room_id">
       <button class="ui button" onclick="location.href='room/'+document.getElementById('room_id').value;">Join</button>
     </div>
-  </div>
+  </div> -->
 
-  <div class="w3-center w3-text-cyan "> 
-    <button class="ui right labeled blue icon button" onclick="window.location='/directories'">
   
-  Directories
-</button>
-  </div>
 
   
 </div>

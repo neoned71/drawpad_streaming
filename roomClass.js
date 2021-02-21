@@ -307,68 +307,58 @@ socket.to(this.roomId).emit("state",this.state);
 	//5th
 	socket.on("canvas",data=>{
     // console.log(data);
-    if(socket.role=="master"){
-    	if(data.action=="radius")
-    	{
-    		if(this.canvas.setRadius(data.data.radius))
-    		{
-          		this.canvas.addAction(data);
-    			socket.to(this.roomId).emit('canvas', data);
-    		}
-    	}
-    	else if(data.action=="tool")
-    	{
-    		if(this.canvas.setTool(data.data.tool))
-    		{
-         		this.canvas.addAction(data);
-    			socket.to(this.roomId).emit('canvas', data);
-    		}
-    	}
+    // if(socket.role=="master"){
 
-    	else if(data.action=="color")
-    	{
+	socket.to(this.roomId).emit('canvas', data);
+    // 	if(data.action=="radius")
+    // 	{
+    // 		if(this.canvas.setRadius(data.data.radius))
+    // 		{
+    //       		this.canvas.addAction(data);
+    // 			socket.to(this.roomId).emit('canvas', data);
+    // 		}
+    // 	}
+    // 	else if(data.action=="tool")
+    // 	{
+    // 		if(this.canvas.setTool(data.data.tool))
+    // 		{
+    //      		this.canvas.addAction(data);
+    // 			socket.to(this.roomId).emit('canvas', data);
+    // 		}
+    // 	}
 
-    		if(this.canvas.setColor(data.data.tool))
-    		{
-          this.canvas.addAction(data);
-    			socket.to(this.roomId).emit('canvas', data);
-    		}
-    	}
-    	else if(data.action=="event")
-    	{
-        	this.canvas.addAction(data);
-    		this.canvas.onEvent(data.data);
+    // 	else if(data.action=="color")
+    // 	{
 
-    		socket.to(this.roomId).emit('canvas', data);
-    	}
+    // 		if(this.canvas.setColor(data.data.tool))
+    // 		{
+    //       this.canvas.addAction(data);
+    // 			socket.to(this.roomId).emit('canvas', data);
+    // 		}
+    // 	}
+    // 	else if(data.action=="event")
+    // 	{
+    //     	this.canvas.addAction(data);
+    // 		this.canvas.onEvent(data.data);
 
-      else if(data.action=="undo")
-      {
+    // 		socket.to(this.roomId).emit('canvas', data);
+    // 	}
 
-        this.canvas.addAction(data);
-        socket.to(this.roomId).emit('canvas', data);
-      }
+    //   else if(data.action=="undo")
+    //   {
 
-      // else if(data.action=="control")
-      // {
-      //   if(data.type="switch")
-      //   {
-      //     if(this.canvas.setCurrent(data.data.id)){
-      //       socket.to(this.roomId).emit('canvas', data);
-      //     }
-      //   }
-        
-        
-      // }
+    //     this.canvas.addAction(data);
+    //     socket.to(this.roomId).emit('canvas', data);
+    //   }
     	
     	
-    	else
-    	{
-    		return;
-    	}
+    	// else
+    	// {
+    	// 	return;
+    	// }
     	
       
-    }
+    // }
     
   });
 
