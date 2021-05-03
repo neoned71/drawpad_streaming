@@ -110,16 +110,22 @@ h = window.innerHeight || document.documentElement.clientHeight || document.body
       <input type="range" min="1" max="10" value="9" class="slider" id="myRange">
     </div>
 
+    <div class="slidecontainer w3-margin w3-text-gray">
+      <input type="range" min="1" max="100" value="50" class="slider" id="zoom" oninput="window.zoomChange()">
+      </div>
 
 
 
 
-          <a href="#" class="w3-margin" onclick="window.canvas.undo()"><i class="w3-text-red fas fa-undo-alt"></i></a>
-          <a href="#" class="w3-margin" onclick="window.canvas.setTool('line');"><i class="w3-text-white fas fa-grip-lines-vertical"></i></a>
-          <a href="#" class="w3-margin" onclick="window.canvas.setTool('circle');"><i class="w3-text-white far fa-circle"></i></a>
-          <a href="#" class="w3-margin" onclick="window.canvas.setTool('path');"><i class="w3-text-white fas fa-pencil-alt"></i></a>
-     <a href="#" class="w3-margin w3-text-green " onclick="clearState();"> <i class="w3-text-red fas fa-retweet"></i>
-      </a>
+
+      <a href="#" class="w3-margin" onclick="window.canvas.undo()"><i class="w3-text-green fas fa-undo-alt"></i></a>
+      <a href="#" class="w3-margin" onclick="window.canvas.setTool('line');"><i class="w3-text-white fas fa-grip-lines-vertical"></i></a>
+      <a href="#" class="w3-margin" onclick="window.canvas.setTool('circle');"><i class="w3-text-white far fa-circle"></i></a>
+     <a href="#" class="w3-margin" onclick="window.canvas.setTool('path');"><i class="w3-text-white fas fa-pencil-alt"></i></a>
+ <a href="#" class="w3-margin" onclick="window.canvas.setTool('move');"> <i class="w3-text-white fas fa-arrows-alt"></i></a>
+ <a href="#" class="w3-margin w3-text-green " onclick="clearState('<%= room %>','<%= fileId %>');"> <i class="w3-text-red fas fa-trash-alt"></i></a>
+      
+     
           <!-- <a href="#" class="w3-margin" onclick="toggleFullScreen();"><i class="fas fa-expand"></i></a> -->
 
           
@@ -194,6 +200,13 @@ if (parseInt(navigator.appVersion) > 3) {
     console.log("mouse down called");
     canvass.captureEvents(Event.MOUSEDOWN);
   }
+}
+
+function zoomChange()
+{
+	var e= document.getElementById("zoom").value;
+	e/=50;
+	window.scope.view.zoom=e;
 }
 
 function a(){

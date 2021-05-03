@@ -537,6 +537,43 @@ class Canvas{
 		}
 		// pathTool();
 
+		var moveT = new Tool();
+		this.tools.set("move",moveT);
+		var isMoving=false;
+
+		moveT.onMouseDown = function(event){
+			this.isMoving=true;
+			// var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
+			// id++;
+			// currentObj=new PathC(id,canvasRadius, canvasColor,j.downPoint,false);
+			// shapesArr.push(currentObj);
+			// var shape = new Path();
+			// shape.strokeColor = canvasColor;
+			// shape.strokeWidth=canvasRadius;
+			// shape.strokeCap = 'round';
+			// shape.smooth();
+			// shape.moveTo(new Point(j.downPoint));
+			// currentCanvasElement=shape;
+			// shapesMap.set(id,{paper:shape,obj:currentObj});
+			// emitEventCanvas("mouseDown",j);
+		}
+
+		moveT.onMouseMove = function(event){
+
+			if(this.isMoving){
+				var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
+				var dp = new Point(j.downPoint);
+				var p=new Point(j.point);
+				window.scope.view.scrollBy(new scope.Point(1*(-p.x+dp.x),1*(-p.y+dp.y)));
+			}
+		}
+
+		
+		moveT.onMouseUp = function(event){
+			this.isMoving=false;
+		}
+
+
 		this.setTool('path');
 		this.initialized=true;
 	}
@@ -677,11 +714,18 @@ class Canvas{
 			console.log(data);
 			var d=data.data.data;
 			his=[];
+			// let hasData=false;
 			for(var i =0 ; i< d.length; i++)
 			{
 				//console.log("executing:"+i);
 				window.canvas.drawObj(d[i]);
+				// hasData=true;
 				//his=data;
+			}
+			if(d.length >0 )
+			{
+				console.log("changed to move");
+				window.canvas.setTool("move");
 			}
 		});
 		currentCanvasElement=null;

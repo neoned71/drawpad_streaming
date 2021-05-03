@@ -97,6 +97,7 @@ class Canvas{
 
 	setTool(tool)
 	{
+		console.log(tool);
 		
 		if(this.tools.has(tool)){
 			console.log("tool selected:"+tool);
@@ -395,18 +396,51 @@ class Canvas{
 			var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};			// console.log(j);
 			// // socket.emit("canvas",{action:"event",type:"mouseUp",data:j});
 			emitEventCanvas("mouseUp",j);
-
 			currentCanvasElement.simplify();
 			canvasElements.push(currentCanvasElement);
 			currentCanvasElement = null;
-
-
 			currentObj.append(j.point);
 			currentObj.setFinished(true);
-
 			uploadObj(currentObj);
 		}
 		// pathTool();
+
+		var moveT = new Tool();
+		this.tools.set("move",moveT);
+		var isMoving=false;
+
+		moveT.onMouseDown = function(event){
+			this.isMoving=true;
+			// var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
+			// id++;
+			// currentObj=new PathC(id,canvasRadius, canvasColor,j.downPoint,false);
+			// shapesArr.push(currentObj);
+			// var shape = new Path();
+			// shape.strokeColor = canvasColor;
+			// shape.strokeWidth=canvasRadius;
+			// shape.strokeCap = 'round';
+			// shape.smooth();
+			// shape.moveTo(new Point(j.downPoint));
+			// currentCanvasElement=shape;
+			// shapesMap.set(id,{paper:shape,obj:currentObj});
+			// emitEventCanvas("mouseDown",j);
+		}
+
+		moveT.onMouseMove = function(event){
+
+			if(this.isMoving){
+				var j={point:{x:event.point.x,y:event.point.y},downPoint:{x:event.downPoint.x,y:event.downPoint.y}};
+				var dp = new Point(j.downPoint);
+				var p=new Point(j.point);
+				window.scope.view.scrollBy(new scope.Point(1*(-p.x+dp.x),1*(-p.y+dp.y)));
+			}
+		}
+
+		
+		moveT.onMouseUp = function(event){
+			this.isMoving=false;
+		}
+
 
 		this.setTool('path');
 		this.initialized=true;
@@ -530,6 +564,11 @@ class Canvas{
 				window.canvas.drawObj(d[i]);
 				//his=data;
 			}
+			if(d.length >0 )
+			{
+				console.log("changed to move");
+				window.canvas.setTool("move");
+			}
 		});
 		currentCanvasElement=null;
 		// controllerForUploads=true;
@@ -553,9 +592,8 @@ class Canvas{
 		shapesMap=new Map();
 
 		currentObj=null;
-		
-		
 		uploadPosition=0;
+		
 		console.log("cleared");
 		window.canvas.setColor("white");
 		window.canvas.setRadius(3);
